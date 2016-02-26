@@ -1,0 +1,1 @@
+var mySwiper2=new Swiper("#swiper-container2",{onInit:function(e){document.getElementById("active-num").innerHTML=e.activeIndex+1,document.getElementById("all-num").innerHTML=e.slides.length},onSlideChangeEnd:function(e){document.getElementById("active-num").innerHTML=e.activeIndex+1}});

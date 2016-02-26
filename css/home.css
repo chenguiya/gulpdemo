@@ -207,11 +207,8 @@ body{font-size: 12px;background-color: #fdfdfd;font-family:"\u5b8b\u4f53", tahom
 .in_mian .main_8{ margin-top:20px;}
 .in_mian .bkrd_bd1{ padding-bottom:12px; border-bottom:1px dashed #cacaca; margin-bottom:12px; width:700px;}
 .in_mian .bkrd_bd1 li{ float:left; margin-right:18px;position:relative; width:155px; height:116px; display:block;}
-.in_mian .bkrd_img{ }
-.in_mian .bkrd_Txt{ position:absolute; left:0; bottom:0px; height:28px; background:#000;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; filter:alpha(opacity=70); opacity: 0.7; width:100%;color:#fff; text-align:center; line-height:28px; font-family:"Microsoft YaHei";}
-.in_mian .bkrd_Txt:hover{ text-decoration:underline;}
-.in_mian .homelayer{display:none;padding:20px 15px 0 15px; height:92px; position:absolute; top:0; left:0; background: rgba(0,0,0,0.7); width:119px;}
-.in_mian .ad_tops{ margin:15px auto 0; text-align:center;}
+
+
 
 /**hezuohuob**/
 .parter_bg{ background:#f5f5f5; padding:15px 0 20px; width:100%;}
@@ -250,5 +247,4 @@ body{font-size: 12px;background-color: #fdfdfd;font-family:"\u5b8b\u4f53", tahom
 .in_mian .intag_List a.tags_16{ left:203px; top:216px; width:97px;}
 .in_mian .intag_List a.tags_17{ left:203px; top:243px; width:97px;}
 .in_mian .widget{ width:1000px; margin-top:20px;}
-.in_mian .widget-head{ height:35px; position:relative; border-bottom:1px solid #e8e8e8; margin-bottom:15px; background:none; border-top:none; padding:0; font-size:20px;}
-.in_mian .widget-head span{ position:absolute; left:0; bottom:-1px; line-height:35px; font-size:20px; border-bottom:1px solid #EB6100;}
+.in_mian .wh{width:1450px;}

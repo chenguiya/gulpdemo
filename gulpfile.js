@@ -7,8 +7,9 @@ var sass = require('gulp-sass');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
-var watch = require('gulp-watch');
-var cssmin = require('gulp-cssmin');
+var watch = require('gulp-watch');//监听
+var cssmin = require('gulp-cssmin');//样式压缩
+var del = require('del');//删除
 
 // 检查脚本
 gulp.task('lint', function() {
@@ -34,9 +35,41 @@ gulp.task('scripts', function() {
         .pipe(gulp.dest('./dist'));
 });
 
-// 默认任务
-gulp.task('default', function(){
-     gulp.src('sass/*.scss')
+//压缩全部JS
+gulp.task('minifyjs',function(){
+   return gulp.src('js/*.js')
+   .pipe(concat('main.js'))   //合并所有JS到mian.js
+   .pipe(gulp.dest('minijs/js'))  //输出mian.js到文件夹
+   .pipe(rename({suffix:'.min'})) //rename压缩后的文件名
+   .pipe(uglify())  //压缩
+   .pipe(gulp.dest('minijs/js'));  //输出
+});
+//单个JS压缩
+gulp.task('singlejs',function(){
+  return gulp.src('js/mobil.js')
+  .pipe(rename({suffix:'e'}))
+  .pipe(uglify())
+  .pipe(gulp.dest('js'));
+});
+//单个scheJS压缩
+gulp.task('schejs',function(){
+  return gulp.src('js/schelue.js')
+  .pipe(rename({suffix:'s'}))
+  .pipe(uglify())
+  .pipe(gulp.dest('js'));
+});
+
+//单个scheJS压缩
+gulp.task('jsci',function(){
+  return gulp.src('jsci/*.js')
+  .pipe(rename({suffix:'s'}))
+  .pipe(uglify())
+  .pipe(gulp.dest('jsci/dist'));
+});
+
+//样式合并
+gulp.task('css',function(){
+  gulp.src('css/*.css')
      .pipe(cssmin())
      .pipe(rename({suffix:'.min'}))
      .pipe(gulp.dest('dist'));
@@ -47,3 +80,20 @@ gulp.task('default', function(){
         //gulp.run('lint', 'sass', 'scripts');
     //});
 });
+// 默认任务
+gulp.task('detault', function(){
+    //gulp.watch('singlejs','css')
+});
+//压缩前，先删除文件夹内容
+gulp.task('clean',function(cb){
+   del(['wat_css','dist','minijs'],cb)
+});
+//监听文件变化watch
+gulp.task('watch',function(){
+  gulp.watch('js/mobil.js',['singlejs']);
+  gulp.watch('js/schelue.js',['schejs']);
+  gulp.watch('jsci/*.js',['jsci']);
+  gulp.watch('css/*.css',['css']);
+});
+
+
