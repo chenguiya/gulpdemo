@@ -1,166 +1,3 @@
-var isIOS = /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent);
-var isAndroid = /(Android)/i.test(navigator.userAgent);
-var isweiXin=navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
-var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
-var base64DecodeChars = new Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);
-var shellmodule={
-  login:function(message){
-      if(isIOS){ 
-          showmsg(message,'',1000);
-          setTimeout(function(){
-            window.location.href ="ios://NativeLogin";
-          },1500);
-      }else if(isAndroid){
-          showmsg(message,'',1000);
-          setTimeout(function(){
-            try{
-               window.Android.NativeLogin();
-            }catch(e){
-               console.log(e);
-               showmsg('此版本不支持，请安装最新版本','',2000);
-            } 
-          },1500);
-      }else{
-        showmsg(message);
-      }  
-  },
-  showtopic:function(base){
-   if(isIOS){
-      window.location.href='ios://NativeShowTopic/'+base;
-    }else if(isAndroid){ 
-      try{
-      window.Android.NativeShowTopic(base);
-      }catch(e){
-        console.log(e);
-        showmsg('此版本不支持，请安装最新版本','',2000);
-      }
-    }else{
-      return false;
-    }
-  },
-  ShareLottery:function(imgur){
-    if(isIOS){
-      window.location.href='ios://NativeShareLottery/'+imgur;
-    }else if(isAndroid){
-      try{
-        window.Android.NativeShareLottery(imgur);
-       }catch(e){
-        console.log(e);
-        showmsg('此版本不支持，请安装最新版本','',2000);
-      }
-    }else{
-      return false;
-    }
-  },
-  LoadTitle:function(title){
-    if(isIOS){
-      window.location.href='ios://NativeTitle/'+title;
-    }else if(isAndroid){
-      window.Android.NativeTitle(title);
-    }else{
-      return false;
-    }
-  },
-  ShowFansClub:function(fid){
-    if(isIOS){
-      window.location.href='ios://NativeShowFansClub/'+fid;
-    }else if(isAndroid){
-      try{
-        window.Android.NativeShowFansClub(fid);
-      }catch(e){
-        console.log(e);
-        showmsg('此版本不支持，请安装最新版本','',2000);
-      }
-    }else{
-      return false;
-    }
-  },
-  Base64Encode:function(str){
-    var out, i, len;  
-    var c1, c2, c3;  
-    len = str.length;  
-    i = 0;  
-    out = "";  
-    while (i < len) {  
-        c1 = str.charCodeAt(i++) & 0xff;  
-        if (i == len) {  
-            out += base64EncodeChars.charAt(c1 >> 2);  
-            out += base64EncodeChars.charAt((c1 & 0x3) << 4);  
-            out += "==";  
-            break;  
-        }  
-        c2 = str.charCodeAt(i++);  
-        if (i == len) {  
-            out += base64EncodeChars.charAt(c1 >> 2);  
-            out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));  
-            out += base64EncodeChars.charAt((c2 & 0xF) << 2);  
-            out += "=";  
-            break;  
-        }  
-        c3 = str.charCodeAt(i++);  
-        out += base64EncodeChars.charAt(c1 >> 2);  
-        out += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));  
-        out += base64EncodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));  
-        out += base64EncodeChars.charAt(c3 & 0x3F);  
-    }  
-    return out;  
-  },
-  Utf8Tosix:function(str){  
-    var out, i, len, c;  
-    out = "";  
-    len = str.length;  
-    for (i = 0; i < len; i++) {  
-        c = str.charCodeAt(i);  
-        if ((c >= 0x0001) && (c <= 0x007F)) {  
-            out += str.charAt(i);  
-        }  
-        else   
-            if (c > 0x07FF) {  
-                out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));  
-                out += String.fromCharCode(0x80 | ((c >> 6) & 0x3F));  
-                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));  
-            }  
-            else {  
-                out += String.fromCharCode(0xC0 | ((c >> 6) & 0x1F));  
-                out += String.fromCharCode(0x80 | ((c >> 0) & 0x3F));  
-            }  
-    }  
-    return out;  
-},  
-  ShareModule:function(title,content,pic,url,type){
-    var titles=this.Base64Encode(this.Utf8Tosix(title)) || '',contents=this.Base64Encode(this.Utf8Tosix(content)) || '',pics=this.Base64Encode(pic) || '',urls=this.Base64Encode(url) || '',types=type || '',titleios=encodeURIComponent(title)||'',contentios=encodeURIComponent(content)||'',picios=encodeURIComponent(pic)||'',urlios=encodeURIComponent(url)||'';
-    if(isIOS){
-      window.location.href='ios://NativeShare/'+titleios+'/'+contentios+'/'+picios+'/'+urlios+'/'+types;
-    }else if(isAndroid){
-      try{
-        window.Android.NativeShare(titles,contents,pics,urls,types);
-      }catch(e){
-        console.log(e);
-        showmsg('此版本不支持，请安装最新版本','',2000);
-      }
-    }else{
-      //alert(title);
-      return false;
-    }
-  },
-  ShowReply:function(pid,rename,area,k){
-    var renames=this.Base64Encode(this.Utf8Tosix(rename));
-    hideWindow(k);
-    if(isIOS){
-      window.location.href='ios://NativeReply/'+pid+'/'+renames+'/'+area;
-    }else if(isAndroid){
-      try{
-        window.Android.NativeReply(pid,renames,area);
-      }catch(e){
-        console.log(e);
-        showmsg('此版本不支持，请安装最新版本','',2000);
-      }
-    }else{
-      return false;
-    }
-  }
-}; 
-
 function showmsg(msg, offsetObj, delay) {
       delay = delay || 2000;
       msg = msg || '操作成功';
@@ -192,7 +29,13 @@ function showmsg(msg, offsetObj, delay) {
         }, delay);
       });
 };
-
+//帖子内页评论定位
+function ThreadScroll(){
+  if($('#columeyr').length){
+    var columeoffset=$('#columeyr').offset().top;
+    scrollTo(0,columeoffset);
+  }
+}
 function back_home(){
     if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) { 
           window.location.href ="ios://NativeBack";
@@ -355,7 +198,7 @@ function showWindow(k,pid,tid,authorid,fid,yname) {
     document.getElementById('append_parent').appendChild(menuObj);
     evtspan=' onclick="hideWindow(\'' + k + '\')"';
     var s='<div class="content_onlay" id="fwin_content_'+k+'"><ul class="pop_ulCOp">';
-     s +='<li><a href="'+cid_url+'/api/post/newreply?fid='+fid+'&tid='+tid+'&parentid='+pid+'&rename='+rename+'&submitreply=0">回复</a></li>';
+     s +='<li><a href="javascript:shellmodule.ShowReply('+pid+',\''+yname+'\',\'\',\''+k+'\')">回复</a></li>';
      s +='<li><a href="javascript:deletoid(\''+k+'\','+pid+','+tid+','+authorid+','+fid+');">删除</a></li>';
      s +='<li><a href="javascript:muzzledid(\''+k+'\','+fid+','+authorid+');">禁言</a></li>';
      s +='<li><a href="javascript:reportsid(\''+k+'\','+fid+','+tid+',\''+yname+'\','+authorid+','+pid+');">举报</a></li>';
@@ -378,7 +221,7 @@ function showOrdinary(k,pid,tid,authorid,fid,yname){
     document.getElementById('append_parent').appendChild(menuObj);
     evtspan=' onclick="hideWindow(\'' + k + '\')"';
     var s='<div class="content_onlay" id="fwin_content_'+k+'"><ul class="pop_ulCOp">';
-     s +='<li><a href="'+cid_url+'/api/post/newreply?fid='+fid+'&tid='+tid+'&parentid='+pid+'&rename='+rename+'&submitreply=0">回复</a></li>';
+     s +='<li><a href="javascript:shellmodule.ShowReply('+pid+',\''+yname+'\',\'\',\''+k+'\')">回复</a></li>';
      s +='<li><a href="javascript:reportsid(\''+k+'\','+fid+','+tid+',\''+yname+'\','+authorid+','+pid+');">举报</a></li>';
      s +='<li class="li_cancel"><a href="javascript:void(0)"' + evtspan + ' class="nav_hide">取消</a></li>';
      s +='</ul></div>';

@@ -1,9 +1,21 @@
-var mySwiper2 = new Swiper('#swiper-container2',{
-      onInit: function(swiper){//回调函数，初始化后执行。
-        document.getElementById("active-num").innerHTML=swiper.activeIndex+1;
-        document.getElementById("all-num").innerHTML=swiper.slides.length;
-      },
-      onSlideChangeEnd: function(swiper){ //回调函数，slider切换结束时执行。
-        document.getElementById("active-num").innerHTML=swiper.activeIndex+1;
-      }
-     }); 
+if($('.fast_postwap').length){
+        if(isIOS){
+           window.res = null;
+           function fixedWatch(el) {
+              if(document.activeElement.nodeName == 'INPUT'){
+                el.css({'position':'static','bottom':'auto','margin-top':'-53px'});
+              } else {
+                el.css({'position':'fixed','bottom':'0'});
+                if(window.res ) { clearInterval(window.res ); window.res  = null; }
+              }
+           }
+           $('.fast_postwap input').focus(function () {
+              if(!window.res) {
+                  fixedWatch($('.fast_postwap'));
+                  window.res = setInterval(function () {
+                    fixedWatch($('.fast_postwap'));
+                  }, 500);
+              }
+          });
+       }
+   }

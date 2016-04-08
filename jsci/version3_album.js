@@ -1,51 +1,9 @@
-define("js/ci_album",["jquery","swiper"],function(a){
+define("js/version3_album",["jquery","swiper"],function(a){
     "user strict";var $=a("jquery");var b=a("swiper");
     var tidalbum=$('#postalbumid').attr('data-tid');
     $('.posta_ok').on('click',function(){
       var str=$(this).attr('data-url');
-      var basechar, i, len;  
-    var c1, c2, c3;  
-    len = str.length;  
-    i = 0;  
-    basechar = "";  
-    while (i < len) {  
-        c1 = str.charCodeAt(i++) & 0xff;  
-        if (i == len) {  
-            basechar += base64EncodeChars.charAt(c1 >> 2);  
-            basechar += base64EncodeChars.charAt((c1 & 0x3) << 4);  
-            basechar += "==";  
-            break;  
-        }  
-        c2 = str.charCodeAt(i++);  
-        if (i == len) {  
-            basechar += base64EncodeChars.charAt(c1 >> 2);  
-            basechar += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));  
-            basechar += base64EncodeChars.charAt((c2 & 0xF) << 2);  
-            basechar += "=";  
-            break;  
-        }  
-        c3 = str.charCodeAt(i++);  
-        basechar += base64EncodeChars.charAt(c1 >> 2);  
-        basechar += base64EncodeChars.charAt(((c1 & 0x3) << 4) | ((c2 & 0xF0) >> 4));  
-        basechar += base64EncodeChars.charAt(((c2 & 0xF) << 2) | ((c3 & 0xC0) >> 6));  
-        basechar += base64EncodeChars.charAt(c3 & 0x3F);  
-    }  
-    //return out; 
-   
-       if(isIOS){
-        window.location.href='ios://NativeSaveImage/'+basechar;
-      }else if(isAndroid){
-         try{
-        window.Android.NativeSaveImage(basechar);
-        }catch(e){
-          console.log(e);
-          showmsg('此版本不支持，请安装最新版本','',2000);
-        } 
-      }else{
-        showmsg('此版本只支持app保存','',2000);
-      }
-    
-     
+      shellmodule.SaveImage(str);
       return false;
     });
 function mygetnativeevent(event) {

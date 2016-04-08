@@ -1,6 +1,5 @@
 var isIOS = /(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent);
 var isAndroid = /(Android)/i.test(navigator.userAgent);
-var isweiXin=navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
 var base64EncodeChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";  
 var base64DecodeChars = new Array(-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 62, -1, -1, -1, 63, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, -1, -1, -1, -1, -1, -1, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, -1, -1, -1, -1, -1, -1, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, -1, -1, -1, -1, -1);
 var shellmodule={
@@ -128,9 +127,9 @@ var shellmodule={
     return out;  
 },  
   ShareModule:function(title,content,pic,url,type){
-    var titles=this.Base64Encode(this.Utf8Tosix(title)) || '',contents=this.Base64Encode(this.Utf8Tosix(content)) || '',pics=this.Base64Encode(pic) || '',urls=this.Base64Encode(url) || '',types=type || '',titleios=encodeURIComponent(title)||'',contentios=encodeURIComponent(content)||'',picios=encodeURIComponent(pic)||'',urlios=encodeURIComponent(url)||'';
+    var titles=this.Base64Encode(this.Utf8Tosix(title)) || '',contents=this.Base64Encode(this.Utf8Tosix(content)) || '',pics=this.Base64Encode(pic) || '',urls=this.Base64Encode(url) || '',types=type || '';
     if(isIOS){
-      window.location.href='ios://NativeShare/'+titleios+'/'+contentios+'/'+picios+'/'+urlios+'/'+types;
+      window.location.href='ios://NativeShare/'+titles+'/'+contents+'/'+pics+'/'+urls+'/'+types;
     }else if(isAndroid){
       try{
         window.Android.NativeShare(titles,contents,pics,urls,types);
@@ -143,14 +142,14 @@ var shellmodule={
       return false;
     }
   },
-  ShowReply:function(pid,rename,area,k){
+  ShowReply:function(pid,rename,k){
     var renames=this.Base64Encode(this.Utf8Tosix(rename));
     hideWindow(k);
     if(isIOS){
-      window.location.href='ios://NativeReply/'+pid+'/'+renames+'/'+area;
+      window.location.href='ios://NativeReply/'+pid+'/'+renames;
     }else if(isAndroid){
       try{
-        window.Android.NativeReply(pid,renames,area);
+        window.Android.NativeReply(pid,renames);
       }catch(e){
         console.log(e);
         showmsg('此版本不支持，请安装最新版本','',2000);
@@ -355,7 +354,7 @@ function showWindow(k,pid,tid,authorid,fid,yname) {
     document.getElementById('append_parent').appendChild(menuObj);
     evtspan=' onclick="hideWindow(\'' + k + '\')"';
     var s='<div class="content_onlay" id="fwin_content_'+k+'"><ul class="pop_ulCOp">';
-     s +='<li><a href="'+cid_url+'/api/post/newreply?fid='+fid+'&tid='+tid+'&parentid='+pid+'&rename='+rename+'&submitreply=0">回复</a></li>';
+     s +='<li><a href="javascript:shellmodule.ShowReply('+pid+',\''+yname+'\',\''+k+'\')">回复</a></li>';
      s +='<li><a href="javascript:deletoid(\''+k+'\','+pid+','+tid+','+authorid+','+fid+');">删除</a></li>';
      s +='<li><a href="javascript:muzzledid(\''+k+'\','+fid+','+authorid+');">禁言</a></li>';
      s +='<li><a href="javascript:reportsid(\''+k+'\','+fid+','+tid+',\''+yname+'\','+authorid+','+pid+');">举报</a></li>';
@@ -378,7 +377,7 @@ function showOrdinary(k,pid,tid,authorid,fid,yname){
     document.getElementById('append_parent').appendChild(menuObj);
     evtspan=' onclick="hideWindow(\'' + k + '\')"';
     var s='<div class="content_onlay" id="fwin_content_'+k+'"><ul class="pop_ulCOp">';
-     s +='<li><a href="'+cid_url+'/api/post/newreply?fid='+fid+'&tid='+tid+'&parentid='+pid+'&rename='+rename+'&submitreply=0">回复</a></li>';
+     s +='<li><a href="javascript:shellmodule.ShowReply('+pid+',\''+yname+'\',\''+k+'\')">回复</a></li>';
      s +='<li><a href="javascript:reportsid(\''+k+'\','+fid+','+tid+',\''+yname+'\','+authorid+','+pid+');">举报</a></li>';
      s +='<li class="li_cancel"><a href="javascript:void(0)"' + evtspan + ' class="nav_hide">取消</a></li>';
      s +='</ul></div>';

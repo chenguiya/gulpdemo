@@ -1,4 +1,4 @@
-define("js/ci_index",["jquery","swiper"],function(a){
+define("js/ci_indextest",["jquery","swiper"],function(a){
     "user strict";var $=a("jquery");
     var DISMENU = new Object;
 var display = {
@@ -233,52 +233,12 @@ if($('.display').length > 0) {
       });
     }
     //帖子详情页回复ajax
-    if($('.elecnation_fastpost').length){
-        var form = $('#fastpostform');
-        
-        $('#fastpostsubmit').on('click', function(event) {
-            var msgobj = $('#fastpostmessage');
-            if(msgobj.val() == '说一句') {
-                msgobj.attr('value', '');
-            }
-            var postdata = { 
-                    fid:$('#fid').val(),     
-                    tid:$('#tid').val(),
-                    mytype:$('#mytype').val(),     
-                    message:msgobj.val()         
-                };
-            $.ajax({
-                type:'POST',
-                url:form.attr('action'),
-                //data:form.serialize(),
-                data:postdata,
-                dataType:'json',
-                success:function(data){
-                    if(data){
-                        if(data.code === 401){
-                           shellmodule.login(data.message);
-                        }else if(data.code === 402){
-                            showmsg(data.message);
-                        }else if(data.code === 403){
-                            showmsg(data.message);
-                        }else if(data.code === 408){
-                            showmsg(data.message);
-                        }else if(data.code === 200){
-                            $('#colume_listid').prepend(data.data.html);
-                            $('#fastpostmessage').val('');
-                            $('#columeyr').find('span').text(parseInt($('#columeyr').find('span').text()) +1);
-                            showmsg(data.message);
-                            var columeyroffset=$('#columeyr').offset().top;
-                            scrollTo(0,columeyroffset);
-                        }else if(data.code === 404){
-                            showmsg(data.message);
-                        }
-                    }
-                },
-                error:function(){
-                    showmsg('出错了，请稍后再试');
-                }
-            });
+    if($('#fastEmoteArea').length){
+        var namer=$('#fastEmoteArea').attr('data-name');
+        //var namers=shellmodule.Base64Encode(shellmodule.Utf8Tosix(namer));
+        $('#fastEmoteArea li').on('click', function(event) {
+            var dataid=$(this).attr('data-id');
+            shellmodule.ShowReply(0,namer,dataid);
             event.preventDefault();
             return false;
         });
@@ -523,12 +483,27 @@ if($('.display').length > 0) {
             return false;
         });
     }
+    //帖子内页标签弹窗
+    if($('#tagLabel').length){
+        $('#tagLabel a').click(function(){
+            $('#tagsLandID').show();
+            return false;
+        })
+        $('#tagsClosed').click(function(){
+            $('#tagsLandID').hide();
+            return false;
+        })
+    }
     //帖子内页图片ajax
     if($('#thread_imgid').length || $('.thread_imgs').length){
         $('.Photoidurl').on('click',function(){
             var imgid=$('#thread_imgid').attr('data-tid');
             var id=$(this).attr('id');
+            if(isIOS){
+               window.location.href=cid_url+'/api/version3/show/photos?tid='+imgid+'&id='+id; 
+            }else{
             window.location.href=cid_url+'/api/show/photos?tid='+imgid+'&id='+id;
+            }
         });
     }
     //立即签到ajax
@@ -596,9 +571,9 @@ if($('.display').length > 0) {
     //话题点击到话题页面
     if($('.topic_name').length){
         $('.topic_name').on('click',function(){
-            var topicValue=$(this).attr('value');
+            var topicValue=$(this).attr('data-name');
             //alert(topicValue);
-            shellmodule.showtopic(topicValue);
+            shellmodule.ShowTopicName(topicValue);
             return false;
         });
     }
