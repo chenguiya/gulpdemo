@@ -78,7 +78,12 @@ var shellmodule={
     if(isIOS){
       window.location.href='ios://NativeOtherMemberInfo/'+authorid;
     }else if(isAndroid){
-      window.Android.NativeOtherMemberInfo(authorid);
+      try{
+        window.Android.NativeOtherMemberInfo(authorid);
+      }catch(e){
+        console.log(e);
+        showmsg('此版本不支持，请安装最新版本','',2000);
+      }
     }else{
       return false;
     }

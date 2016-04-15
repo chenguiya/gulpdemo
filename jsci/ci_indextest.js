@@ -80,28 +80,35 @@ if($('.display').length > 0) {
         });
     }
     //评论加载更多
-    if($('#J_loading').length){
-        var page=2,flag=true,loading=false;
+    if(document.getElementById('J_loading')){
+        var page=2,flag=true,loading=false,totalpage=parseInt($('#J_loading').attr('totalpage'));
         $(window).scroll(function(){
-              if($(document).height()-$(this).scrollTop()-$(this).height() < 300){
-                if(loading){
-                    //$("#J_loading").html("加载完毕");
-                    $("#J_loading").hide();
+            if( $(document).height()-$(this).scrollTop()-$(this).height()< 200){
+                if(document.getElementById('J_loading')){
+                    flag=true;
+                    document.getElementById('J_loading').style.display="block";
+                    setTimeout(function(){
+                        if(flag){
+                            getlist();
+                            page++;
+                            if(page==totalpage+1){
+                                $('#J_loading').remove();
+                            }
+                        }
+                        flag=false;
+                    },1000);                   
                 }
-                flag=true;
-                if(isIOS){
-                    $('#J_loading').hide();
-                }else{
-                    $('#J_loading').show();
-                }
-                setTimeout(function(){
-                    if(flag){
-                    $.getJSON(location.href,{page:page},function(data){
-                         if(data.code ===201){
-                            //$('#J_loading').html('加载完毕');
-                            $('#J_loading').hide();
-                         }
-                         $('#J_loading').hide();
+            }
+        });
+    }
+    function getlist(){
+        $.ajax({
+            type:'GET',
+            url:location.href,
+            data:{page:page},
+            dataType:'json',
+            success:function(data){
+                        $('#J_loading').hide();
                          var count=data.replylists.length;
                          var arr=data.replylists;
                          for(var i=0;i < count ;i++){
@@ -150,12 +157,10 @@ if($('.display').length > 0) {
                             $('#colume_listid').append(arrlist);
                          }
 
-                    });
-                    page++;
+                    },
+                    error:function(){
+                        showmsg('数据获取失败');
                     }
-                    flag=false;
-                },200);
-              }
         });
     }
     //详情页点赞ajax
@@ -565,8 +570,9 @@ if($('.display').length > 0) {
             }else{
                textR = textR.replace(reg, "<a href='http:\/\/$1$2'>$1$2</a>");  
             }
-        }
         document.getElementById('thread_imgid').innerHTML = textR;
+        }
+        
     }
     //话题点击到话题页面
     if($('.topic_name').length){
