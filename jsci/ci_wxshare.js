@@ -1,0 +1,41 @@
+﻿define("js/ci_wxshare",["jquery","http://res.wx.qq.com/open/js/jweixin-1.0.0.js"],function(a){
+    "user strict";var $=a("jquery");var wx=a('http://res.wx.qq.com/open/js/jweixin-1.0.0.js');
+    wx.config({
+      debug:!1,
+      appId:shareData.appId,
+      timestamp:shareData.timestamp,
+      nonceStr:shareData.nonceStr,
+      signature:shareData.signature,
+      jsApiList:["checkJsApi","onMenuShareTimeline","onMenuShareAppMessage"]
+      })
+wx.ready(function(){
+  wx.showOptionMenu(),
+  wx.onMenuShareAppMessage({
+    title:shareData.title,
+    desc:shareData.description,
+    link:shareData.url,
+    imgUrl:shareData.image,
+    trigger:function(e){},
+    success:function(e){
+      sharesucess();
+    },
+    cancel:function(e){},
+    fail:function(e){}
+  })
+  wx.onMenuShareTimeline({
+    title:shareData.title,
+    link:shareData.url,
+    imgUrl:shareData.image,
+    trigger:function(e){},
+    success:function(e){
+      sharesucess();
+    },
+    cancel:function(e){},
+    fail:function(e){}
+  })
+})
+wx.error(function(e){
+  alert(e.errMsg)
+});
+
+});
