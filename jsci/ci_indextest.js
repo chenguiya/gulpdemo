@@ -537,7 +537,7 @@ if($('.display').length > 0) {
                         }else if(data.code === 200){
                             showmsg(data.message,'',1000);
                                 setTimeout(function(){
-                                  window.location.href=cid_url+'/api/show?tid='+tid;
+                                  window.location.href=cid_url+'/api/version3/show?tid='+tid;
                                 },1500)
                         }else{
                             showmsg('数据错误');

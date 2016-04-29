@@ -59,14 +59,20 @@ gulp.task('schejs',function(){
   .pipe(gulp.dest('js'));
 });
 
-//单个scheJS压缩
+//ci单个压缩文件jsci
 gulp.task('jsci',function(){
   return gulp.src('jsci/*.js')
   .pipe(rename({suffix:'s'}))
   .pipe(uglify())
   .pipe(gulp.dest('jsci/dist'));
 });
-
+//wap_oshop中jswaposhop压缩js文件dist
+gulp.task('jswaposhop',function(){
+   return gulp.src('jswaposhop/*.js')
+   .pipe(rename({suffix:'s'}))
+   .pipe(uglify())
+   .pipe(gulp.dest('jswaposhop/dist'));
+})
 //样式合并
 gulp.task('css',function(){
   gulp.src('css/*.css')
@@ -93,6 +99,7 @@ gulp.task('watch',function(){
   gulp.watch('js/mobil.js',['singlejs']);
   gulp.watch('js/schelue.js',['schejs']);
   gulp.watch('jsci/*.js',['jsci']);
+  gulp.watch('jswaposhop/*.js',['jswaposhop']);
   gulp.watch('css/*.css',['css']);
 });
 

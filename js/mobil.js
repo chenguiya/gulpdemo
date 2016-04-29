@@ -1,8 +1,38 @@
 $(function(){
    //@ch 
-  $("#actMores").on("click",function(){
-  	 getpageShow('forum.php?mod=viewthread', '#actMores','#sectionBoxd', '#postBoxd .chtwo')
-  	});
+   $("#actMores").on("click",function(){
+    var num,locationUR;
+    var isWeiXin = navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
+     var page=parseInt($(this).attr('data-page'));
+     var totalpage=parseInt($(this).attr('data-totalpage'));
+     var tid=parseInt($(this).attr('data-id'));
+     if(isWeiXin){
+      locationUR=location.href
+     }else{
+      locationUR='forum.php?mod=viewthread&tid='+tid;
+     }
+    $.ajax({
+       type:'GET',
+       url:locationUR,
+       data:{page:page},
+       dataType:'html',
+       success:function(data){
+          if(page <= totalpage){
+             $('#sectionBoxd').append($(data).find('#postBoxd .chtwo'));
+              num=page+1;
+              $('#actMores').attr('data-page',num);
+              if(num==totalpage+1){
+                  $('#actMores').html("没有更多了");
+              }
+          }else{
+              $('#actMores').html('没有更多了');
+          }
+       },
+       error:function(){
+        alert('数据问题');
+       }
+     })
+    });
   $('#applylist_more').on("click",function(){
     getpageShow('forum.php?mod=misc&action=getactivityapplylist','#applylist_more','#folat_labelModel','#folat_labelModel label')
   });
@@ -163,13 +193,15 @@ function getpageShow(url,id,sourceSelector,targetSelector){
    var page=parseInt($(id).attr('page'));
    var totalpage=parseInt($(id).attr('totalpage'));
    var tid=parseInt($(id).attr('data-id'));
-   url=url+'&tid='+tid+'&page='+page+'&mobile=2';
+   url=url+'&tid='+tid+'&page='+page;
    $.get(url,function(html){
       if(page <= totalpage){
       $(sourceSelector).append($(html).find(targetSelector));
       num=page+1;
       $(id).attr('page',num);
-
+      if(num==totalpage+1){
+        $(id).html("没有更多了");
+      }
       }else{
        $(id).html('没有更多了');
       }
