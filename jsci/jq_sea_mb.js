@@ -212,7 +212,8 @@ seajs.config({
 		"$": "js/jquery/jquery.2.1.1.min.js",
 		"jquery": "js/jquery/jquery.2.1.1.min.js",
 		'seajs-css': 'js/seajs-css/1.0.4/seajs-css.js',
-		"swiper": "js/swiper/swiper.min.js"
+		"swiper": "js/swiper/swiper.min.js",
+    "echart":"js/module/echarts-all.js"
 	},
 	charset: 'utf-8',
 	debug: true

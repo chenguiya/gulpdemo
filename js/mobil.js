@@ -1,8 +1,8 @@
 $(function(){
-   //@ch 
+  var isWeiXin = navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
+   //内页评论加载 
    $("#actMores").on("click",function(){
     var num,locationUR;
-    var isWeiXin = navigator.userAgent.toLowerCase().indexOf("micromessenger") != -1;
      var page=parseInt($(this).attr('data-page'));
      var totalpage=parseInt($(this).attr('data-totalpage'));
      var tid=parseInt($(this).attr('data-id'));
@@ -33,10 +33,101 @@ $(function(){
        }
      })
     });
+   //申请报名加载
   $('#applylist_more').on("click",function(){
-    getpageShow('forum.php?mod=misc&action=getactivityapplylist','#applylist_more','#folat_labelModel','#folat_labelModel label')
+     var url,num;
+     var page=parseInt($(this).attr('page'));
+     var totalpage=parseInt($(this).attr('totalpage'));
+     var tid=parseInt($(this).attr('data-id'));
+     url='forum.php?mod=misc&action=activityapplylist&tid='+tid;
+     $.ajax({
+      type:'GET',
+      url:url,
+      data:{page:page},
+      dataType:'html',
+      success:function(data){
+        if(page <=totalpage){
+          $('#folat_labelModel').append($(data).find('#folat_labelModel'));
+          num=page+1;
+          $('#applylist_more').attr('page',num);
+          if(num == totalpage+1){
+            $('#applylist_more').html('没有更多了');
+          }
+        }else{
+          $('#applylist_more').html('没有更多了');
+        }
+      },
+      error:function(){
+        alert('数据问题');
+      }
+     });      
   });
-
+  //未签到加载
+  $('#SignOutMore').on('click',function(){
+    var url,num;
+    var page=parseInt($(this).attr('page'));
+    var totalpage=parseInt($(this).attr('totalpage'));
+    var tid=parseInt($(this).attr('data-id'));
+    if(isWeiXin){
+      url=location.href;
+    }else{
+      url='forum.php?mod=misc&action=signinlist&tid='+tid+'&issigined=0&mobile=2';
+    }
+    if(page <=totalpage){
+      $.ajax({
+        type:'GET',
+        url:url,
+        data:{page:page},
+        dataType:'html',
+        success:function(data){
+          $('#tableSign').append($(data).find('#tableSign tbody tr'));
+          num=page+1;
+          $('#SignOutMore').attr('page',num);
+          if(num == totalpage +1){
+            $('#SignOutMore').html('没有更多了');
+          }
+        },
+        error:function(){
+          alert('数据有问题');
+        }
+      });
+    }else{
+      $('#SignOutMore').html('没有更多了');
+    }
+  });
+  //已签到加载
+  $('#SignInMore').on('click',function(){
+     var url,num;
+     var page=parseInt($(this).attr('page'));
+     var totalpage=parseInt($(this).attr('totalpage'));
+     var tid=parseInt($(this).attr('data-id'));
+     if(isWeiXin){
+      url=location.href;
+     }else{
+      url='forum.php?mod=misc&action=signinlist&tid='+tid+'&mobile=2'
+     }
+     if(page <= totalpage){
+        $.ajax({
+          type:'GET',
+          url:url,
+          data:{page:page},
+          dataType:'html',
+          success:function(data){
+            $('#tableSign').append($(data).find('#tableSign tbody tr'));
+            num=page+1;
+            $('#SignInMore').attr('page',num);
+            if(num == totalpage +1){
+              $('#SignInMore').html('没有更多了');
+            }
+          },
+          error:function(){
+            alert('数据有问题');
+          }
+        });
+     }else{
+      $('#SignInMore').html('没有更多了');
+     }
+  });
   $('#actbox_More').on("click",function(){
     var url,num;
     var page=parseInt($(this).attr('page'));
@@ -187,27 +278,6 @@ function totime(str){
   return str;
 }
 
-//@ch more
-function getpageShow(url,id,sourceSelector,targetSelector){
-   var url,id,sourceSelector,targetSelector,num;
-   var page=parseInt($(id).attr('page'));
-   var totalpage=parseInt($(id).attr('totalpage'));
-   var tid=parseInt($(id).attr('data-id'));
-   url=url+'&tid='+tid+'&page='+page;
-   $.get(url,function(html){
-      if(page <= totalpage){
-      $(sourceSelector).append($(html).find(targetSelector));
-      num=page+1;
-      $(id).attr('page',num);
-      if(num==totalpage+1){
-        $(id).html("没有更多了");
-      }
-      }else{
-       $(id).html('没有更多了');
-      }
-   });
-  
-}
 
 //竞猜弹窗
 var G={};

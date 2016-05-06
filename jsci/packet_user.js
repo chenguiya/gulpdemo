@@ -35,7 +35,9 @@ define(function(require, exports, module){
  		});
  		//return false;
  	});
-
+    thisDiv.find('#sharePixPach').click(function(){
+        shellmodule.ShareModule('','',config.shareURL,'','al_redpacket');
+    });
  	function countDown(endtime,starttime,day_elem,hour_elem,minute_elem,second_elem){
     //if(typeof end_time == "string")
     var end_time = new Date(endtime).getTime(),//月份是实际月份-1
@@ -130,7 +132,7 @@ define(function(require, exports, module){
         			data:{uid:config.shareUid},
         			dataType:'json',
         			success:function(data){
-        				thisDiv.find('#ggcanvas').append('<div id="dice_mask"></div>');
+        				//thisDiv.find('#ggcanvas').append('<div id="dice_mask"></div>');
         				console.log(data.message);
         			},
         			error:function(){
