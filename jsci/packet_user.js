@@ -42,7 +42,7 @@ define(function(require, exports, module){
     //if(typeof end_time == "string")
     var end_time = new Date(endtime).getTime(),//月份是实际月份-1
     current_time = new Date(starttime).getTime(),
-    sys_second = (end_time-current_time)/1000;
+    sys_second = (end_time- current_time)/1000;
     var timer = setInterval(function(){
         if (sys_second > 0) {
             sys_second -= 1;

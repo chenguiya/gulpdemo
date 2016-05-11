@@ -51,6 +51,42 @@ define("js/ci_betgues",["jquery","echart"],function(a){
     myChart.setOption(option); 
     }
     
+    //竞猜中心加载
+    if(document.getElementById('Cetloading')){
+        var currpage=2,flag=true,loading=false;
+        var pagesize=parseInt($('#Cetloading').attr('pagesize'));
+        var totalpage=parseInt($('#Cetloading').attr('totalpage'));
+        $(window).scroll(function(){
+            if($(document).height()-$(this).scrollTop()-$(this).height() < 200){
+                if(document.getElementById('Cetloading')){
+                    flag=true;
+                    document.getElementById('Cetloading').style.display="block";
+                    setTimeout(function(){
+                        if(flag){
+                            $.ajax({
+                                type:'GET',
+                                url:cid_url+'/api/guess/guess_center',
+                                data:{pagesize:pagesize,currpage:currpage,totalpage:totalpage,token:token},
+                                dataType:'html',
+                                success:function(data){
+                                    $('#guessCenter').append($(data).find('.guess_box'));
+                                    currpage++;
+                                    if(currpage==totalpage+1){
+                                        $('#Cetloading').remove();
+                                    }
+                                },
+                                error:function(){
+                                    showmsg('数据获取失败');
+                                }
+                            });
+                        }
+                        flag=false;
+                    },1000);
+                }
+            }
+        })
+    }
+    //其他
     
 });
 
