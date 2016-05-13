@@ -39,7 +39,10 @@ $(function(){
      var page=parseInt($(this).attr('page'));
      var totalpage=parseInt($(this).attr('totalpage'));
      var tid=parseInt($(this).attr('data-id'));
-     url='forum.php?mod=misc&action=activityapplylist&tid='+tid;
+      url=location.href;
+     //url='forum.php?mod=misc&action=activityapplylist&tid='+tid;
+     //http://www.5usport.com/forum.php?mod=misc&action=activityapplylist&tid=79251&page=3
+     url=location.href;
      $.ajax({
       type:'GET',
       url:url,
