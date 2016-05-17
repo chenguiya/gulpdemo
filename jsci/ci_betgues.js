@@ -11,8 +11,8 @@ define("js/ci_betgues",["jquery","echart"],function(a){
         },
         calculable : false,
         color:[
-           '#84d6c7',
-           '#fcae6e'
+           dataJson.colorO,
+           dataJson.colorT
         ],
         series : [
           {
@@ -24,12 +24,9 @@ define("js/ci_betgues",["jquery","echart"],function(a){
             data:[
                 {
                     value:dataJson.keValue,
-                    name:'客胜',
+                    name:dataJson.keName,
                     itemStyle : {
                         normal : {
-                            label: {
-            show: true
-        },
                             labelLine : {
                                 length : 5
                             }
@@ -38,7 +35,7 @@ define("js/ci_betgues",["jquery","echart"],function(a){
                 },
                 {
                     value:dataJson.zhuValue, 
-                    name:'主胜',
+                    name:dataJson.zhuName,
                     itemStyle : {
                         normal : {
                             labelLine : {
@@ -163,7 +160,7 @@ define("js/ci_betgues",["jquery","echart"],function(a){
      evtspan=' onclick="hideWindow(\'' + k + '\')"';
      var s='<div class="bet-boxMain">';
          s+='<div class="popClosed"><a href="javascript:void(0);"' + evtspan + ' class="icon-nots"></a></div>';
-         s+='<div class="bet-ok"><div><i class="icon-result"></i>成功下注</div><span>你可以在【我的竞猜】查看</span></div>';
+         s+='<div class="bet-ok"><div><i class="icon-result"></i>成功下注</div><a href="http://app.5usport.com/wap.html">开奖结果请下载“5U球迷联盟”APP查看</a></div>';
          s+='</div>';
          s+='</div>';
      menuObj.innerHTML=s;
