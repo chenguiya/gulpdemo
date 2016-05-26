@@ -142,7 +142,15 @@ if($('.display').length > 0) {
                                 arrlist+='<a href="javascript:void(0);" class="icon-zans paire_zg" data-url="'+cid_url+'/api/misc/like?pid='+arr[i].pid+'&tid'+arr[i].tid+'&authorid='+arr[i].authorid+'&fid='+data.fid+'&uid='+data.member_info.uid+'"><em>'+arr[i].support+'</em></a>';
                                 arrlist+='</div>';
                                 arrlist+='<div class="authi_p"><span>'+arr[i].dateline+'</span></div>';
-                                arrlist+='<div class="message">'+arr[i].message+'</div>';
+                                arrlist+='<div class="message">'+arr[i].message+'';
+                                if(arr[i].images !=''){
+                                    arrlist+='<div class="rep_imgr" align="center">';
+                                    for(var p in arr[i].images){
+                                        arrlist+='<img src="'+arr[i].images[p]+'">';
+                                    }
+                                    arrlist+='</div>';
+                                }
+                                arrlist+='</div>';
                                 if(arr[i].reply.length){
                                     var brr=arr[i].reply;
                                     var b_count=brr.length;
