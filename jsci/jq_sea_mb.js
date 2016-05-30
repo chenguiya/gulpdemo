@@ -187,6 +187,20 @@ var shellmodule={
       return false;
     }
   },
+  NativeGamble:function(){
+    if(isIOS){
+      window.location.href='ios://NativeGamble';
+    }else if(isAndroid){
+      try{
+        window.Android.NativeGamble();
+      }catch(e){
+        console.log(e);
+        showmsg('此版本不支持，请安装最新版本','',2000);
+      }  
+    }else{
+      return false;
+    }
+  },
   SaveImage:function(url){
     var urlandroid=this.Base64Encode(this.Utf8Tosix(url)),urlios=encodeURIComponent(url);
     if(isIOS){
