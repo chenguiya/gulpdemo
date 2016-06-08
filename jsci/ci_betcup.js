@@ -1,5 +1,10 @@
-define("js/ci_betcup",["jquery"],function(a){
-    "user strict";var $=a("jquery");
+define("js/ci_betcup",["jquery","swiper"],function(a){
+    "user strict";var $=a("jquery");var b=a("swiper");
+    if($('#swiper-container2').length){
+      var mySwiper2 = new Swiper('#swiper-container2',{
+      pagination : '.swiper-pagination'
+     }); 
+    }
     if($('#bettIng').length){
       $('.betBtn').click(function(){
         var chosebet=$(this).attr('data-type');
