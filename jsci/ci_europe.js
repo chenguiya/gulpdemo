@@ -41,11 +41,11 @@ define("js/ci_europe",["jquery"],function(a){
     var m,html='';
     $.ajax({
       type:'GET',
-      url:cid_url+'/api/eurocup/scorers_list',
+      url:cid_url+'/api/eurocup/dqd_get_shooter',
       dataType:'json',
       success:function(data){
         html +='<table border="0" cellpadding="0" cellspacing="0" width="100%">';
-        html +='<tr><th width="12%" class="onve">排名</th><th>球员</th><th width="20%" class="onve">进球数</th><th width="25%">球队</th> </tr>';
+        html +='<tr><th width="10%" class="onve">排名</th><th width="20%">球员</th><th width="12%" class="onve">进球数</th><th width="25%">球队</th> </tr>';
         for(m=0; m < data.data.length; m++){
           html +='<tr>';
           html +='<td class="onve">'+data.data[m].rangking+'</td>';
@@ -56,6 +56,31 @@ define("js/ci_europe",["jquery"],function(a){
         }
         html +='</table>';
         $('#shooterTable').html(html);
+      },
+      error:function(){
+        console.log('数据有误');
+      }
+    });
+  }
+  if($('#assistTable').length){
+    var m,html='';
+    $.ajax({
+      type:'GET',
+      url:cid_url+'/api/eurocup/dqd_get_assist',
+      dataType:'json',
+      success:function(data){
+        html +='<table border="0" cellpadding="0" cellspacing="0" width="100%">';
+        html +='<tr><th width="12%" class="onve">排名</th><th width="20%">球员</th><th width="20%" class="onve">助攻数</th><th width="25%">球队</th> </tr>';
+        for(m=0; m < data.data.length; m++){
+          html +='<tr>';
+          html +='<td class="onve">'+data.data[m].rangking+'</td>';
+          html +='<td>'+data.data[m].player_name+'</td>';
+          html +='<td class="onve">'+data.data[m].assists+'</td>';
+          html +='<td>'+data.data[m].team+'</td>';
+          html +='</tr>';
+        }
+        html +='</table>';
+        $('#assistTable').html(html);
       },
       error:function(){
         console.log('数据有误');
