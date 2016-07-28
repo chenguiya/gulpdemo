@@ -1,5 +1,43 @@
-define("js/summary",["jquery","highcharts"],function(a){
-    "user strict";var $=a("jquery");var e=a("highcharts");
+define("test/summary",["jquery","highcharts","dateRange"],function(require, exports, module){
+    "user strict";var $ = require("jquery");var t=require("dateRange");var h=require("highcharts");var a={};
+    a.init=function(){
+        //时间设置
+        var dateRange = new t.pickerDateRange('date_time', {
+            aRecent7Days : 'aRecent7DaysDemo3', 
+            isTodayValid : true,
+            startDate : start_date,
+            endDate : end_date,
+            needCompare : true,
+            defaultText : ' 至 ',
+            inputTrigger : 'input_trigger_time',
+            theme : 'ta',
+            success : function(obj) {
+              // $("#").html('开始时间 : ' + obj.startDate + '<br/>结束时间 : ' + obj.endDate);
+              $.ajax({
+                type:'POST',
+                url:homeUrl+'index/exec_changedate',
+                data:{start_date:obj.startDate,end_date:obj.endDate},
+                dataType:'json',
+                success:function(data){
+                    var msg=[],msg_count=[],mjoincount=[];
+                    var dateu=eval(data.data.new_member_list);
+                    var joindate=eval(data.data.new_join_list);
+                    for(var i=0; i < data.data.new_member_list.length; i++){
+
+                        msg.push(String(dateu[i].date));
+                        msg_count.push(dateu[i].count);
+                    }
+                    for(var j=0; j < data.data.new_join_list.length; j++){
+                        mjoincount.push(joindate[j].count);
+                    }
+                    //console.log(mjoincount.join(','));
+                    a.highcharts(msg,msg_count,mjoincount);
+
+                }
+              })
+            }
+        });
+
     $('#inforContainer').highcharts({
         title: {
             text: null,
@@ -7,8 +45,8 @@ define("js/summary",["jquery","highcharts"],function(a){
         },
         colors:['#f9c262','#67c8f5'],
         xAxis: {
-            categories: ['2016-06-30', '2016-07-01', '2016-07-02', '2016-07-03', '2016-07-04', '2016-07-05',
-                '2016-07-06', '2016-07-07', '2016-07-08', '2016-07-09', '2016-07-010', '2016-07-11']
+            categories:member_date
+            //categories: ['2016-06-30', '2016-07-01', '2016-07-02', '2016-07-03', '2016-07-04', '2016-07-05','2016-07-06', '2016-07-07', '2016-07-08', '2016-07-09', '2016-07-010', '2016-07-11']
         },
         yAxis: {
             title: {
@@ -27,13 +65,49 @@ define("js/summary",["jquery","highcharts"],function(a){
         },
         series: [{
             name: '会员数',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
+            data: member_count
         }, {
             name: '参与数',
-            data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5]
+            data: join_count
         }]
     });
-
+     },
+     a.highcharts=function(mem_date,mem_count,join_count){
+        $('#inforContainer').highcharts({
+        title: {
+            text: null,
+            x: -20 //center
+        },
+        colors:['#f9c262','#67c8f5'],
+        xAxis: {
+            categories:mem_date
+            //categories: ['2016-06-30', '2016-07-01', '2016-07-02', '2016-07-03', '2016-07-04', '2016-07-05','2016-07-06', '2016-07-07', '2016-07-08', '2016-07-09', '2016-07-010', '2016-07-11']
+        },
+        yAxis: {
+            title: {
+                text: null
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        legend: {
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: [{
+            name: '会员数',
+            data: mem_count
+        }, {
+            name: '参与数',
+            data: join_count
+        }]
+    });
+     }
+    module.exports = a;
     
 });
 

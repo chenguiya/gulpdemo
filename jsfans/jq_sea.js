@@ -16,6 +16,8 @@ seajs.config({
 		"jquery": "js/jquery/jquery.2.1.1.min.js",
 		'seajs-css': 'js/seajs-css/1.0.4/seajs-css.js',
 		'ajaxupload':'js/module/ajaxfileupload.js',
+		'poshytip':'js/module/tooltip/poshytip',
+		'common':'js/module/common/common',
 		'highcharts':'js/module/highcharts.js'
 	},
 	charset: 'utf-8',

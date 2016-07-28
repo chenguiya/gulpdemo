@@ -1,26 +1,5 @@
-//define(function(require, exports, module){
- //var $=require("jquery");
-/**
- *=======================================================================
- *日期选择器js组件。
- *@author ：johnnyzheng(johnnyzheng@tencent.com) 郑灿双
- *@version ： 2012-07-11
- *@modification list：2012-08-16  规范样式名称
- *                    2013-01-04  增加主题设置接口
- *                    2013-01-31  增加自定义灰掉周末 周几的选项，增加自动初始化自动提交的功能
- *                    2013-03-15  支持一个页面多个日期选择器，快捷日期选择
- *                    2013-03-26  增加确认、取消按钮的隐藏，而直接自动提交
- * 					  2013-08-01  扩展接口，增加最近90天，增加自定义可选时间
- * 					  2013-08-12  日期选择器框体宽度超出视窗大小的时候制动鼓靠右对齐
- *					  2014-02-25  增加业务接口：获取当前日期对象的的选中日期
- *					  2014-10-13  扩展参数，支持日期下拉选择自定义年和月份，配合theme:ta来使用。
- *=======================================================================
-*/
-	/**
- 	* @description 整个日期选择器对象的构造函数入口，支持丰富的接口参数传递，大多数提供默认配置，可传入覆盖
- 	* @param {String} inputId 日期选择器ID
- 	* @param {object} options 配置数组
- 	*/
+define(function(require, exports, module){
+ var $=require("jquery");
 
 function pickerDateRange(inputId, options) {
 
@@ -1449,4 +1428,5 @@ pickerDateRange.prototype.formatDate = function(ymd) {
     });
 };
 
-//});
+exports.pickerDateRange=pickerDateRange;
+});
