@@ -83,7 +83,7 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                 }
             }
         },'.subTaskName');
-        //增加大任务状态
+        //大任务keyup成功状态
         task.on({
             keyup:function(b){
                 var self=$(this);
@@ -95,23 +95,23 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                         dataType:'json',
                         success:function(data){
                             self.val('');
-                            var hml='<li class="">\
-                                       <div class="singleTreeTask" style="padding-left:0px;">\
-                                            <span class="TaskAdd"></span>\
-                                            <span class="defaultListColorTask whiteTask"></span>\
-                                            <span class="treeMark">\
-                                                  <span class="markTask" data-id="'+data.data.taskid+'" data-val="1" title="标记完成"></span>\
-                                            </span>\
-                                            <div class="taskListName">\
-                                                 <input class="subTaskName" titleid="'+data.data.taskid+'" data-title="'+data.data.name+'" maxlength="256" value="'+data.data.name+'">\
-                                           </div>\
-                                           <div class="operation">\
-                                                <span class="taskListDate"  name="starttimefrom_'+data.data.taskid+'" id="starttimefrom_'+data.data.taskid+'" data-id="'+data.data.taskid+'"><span data-date="null" class="deteLine">设置到期时间</span></span>\
-                                                <i class="icon-task-signal" id="'+data.data.taskid+'" tip="子任务">子任务</i>\
-                                                <span class="task_signalDetele" data-taskid="'+data.data.taskid+'" title="删除"></span>\
-                                           </div>\
-                                     </div>\
-                                 </li>';
+                            var hml='<li class="">';
+                                hml+='<div class="singleTreeTask" style="padding-left:0px;">';
+                                hml+='<span class="TaskAdd"></span>';
+                                hml+='<span class="defaultListColorTask whiteTask"></span>';
+                                hml+='<span class="treeMark">';
+                                hml+='<span class="markTask" data-id="'+data.data.taskid+'" data-val="1" title="标记完成"></span>';
+                                hml+='</span>';
+                                hml+='<div class="taskListName">';
+                                hml+='<input class="subTaskName" titleid="'+data.data.taskid+'" data-title="'+data.data.name+'" maxlength="256" value="'+data.data.name+'">';
+                                           hml+='</div>';
+                                hml+='<div class="operation">';
+                                hml+='<span class="taskListDate"  name="starttimefrom_'+data.data.taskid+'" id="starttimefrom_'+data.data.taskid+'" data-id="'+data.data.taskid+'"><span data-date="null" class="deteLine">设置到期时间</span></span>';
+                                                hml+='<i class="icon-task-signal" data-parentid="'+data.data.taskid+'" tip="子任务">子任务</i>';
+                                                hml+='<span class="task_signalDetele" data-taskid="'+data.data.taskid+'" title="删除"></span>'
+                                           hml+='</div>';
+                                     hml+='</div>';
+                                 hml+='</li>';
                              if($('#taskList ul').is('.singleTask')){
                                 $('#taskList ul').prepend(hml);
                                 self.parents('.createNewTask').remove();
@@ -125,10 +125,12 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                 }
             }
         },'.txtSingleName');
+        //大任务点击按钮
         $('#diskMain').on({
             click:a.createTaskBig
         },'.add_taskad');
-        //小任务增加
+        //小任务增加Start
+        //<?=HOME_URL?>admin/task/addnew?parentid=<?=$value['taskid']?>&title=XXX
         task.on({
             click:function(){
                 var t=$(this),parentid=t.attr('data-parentid'),ul=t.closest('li').children('ul');
@@ -157,24 +159,24 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                         success:function(e){
                             self.val();
                             var hl='';
-                                hl+='<li class="tLine">\
-                                         <div class="tliLine" style="left:20px;"></div>\
-                                         <div class="singleTreeTask">\
-                                              <span class="subJoinLine"></span>\
-                                              <span class="InlineBlockTop subNoneNode"></span>\
-                                              <span class="nodeCircleSmall circle "></span>\
-                                              <span class="defaultListColorTask whiteTask"></span>\
-                                              <span class="treeMark"><span class="markTask" title="标记完成"></span></span>\
-                                              <div class="taskListName">\
-                                                   <input class="subTaskName" maxlength="256" value="'+e.data.name+'">\
-                                              </div>\
-                                              <div class="operation">\
-                                                   <span class="taskListDate" name="starttimefrom_" id="starttimefrom_" data-id=""><span data-date="null" class="deteLine">设置到期时间</span></span>\
-                                                   <i class="task_None" tip="子任务"></i>\
-                                                   <span class="task_signalDetele" data-id="" title="删除"></span>\
-                                              </div>\
-                                         </div>\
-                                     </li>';
+                                hl+='<li class="tLine">';
+                                         hl+='<div class="tliLine" style="left:20px;"></div>';
+                                         hl+='<div class="singleTreeTask">';
+                                              hl+='<span class="subJoinLine"></span>';
+                                              hl+='<span class="InlineBlockTop subNoneNode"></span>';
+                                              hl+='<span class="nodeCircleSmall circle "></span>';
+                                              hl+='<span class="defaultListColorTask whiteTask"></span>';
+                                              hl+='<span class="treeMark"><span class="markTask" title="标记完成"></span></span>';
+                                              hl+='<div class="taskListName">';
+                                                   hl+='<input class="subTaskName" maxlength="256" value="'+e.data.name+'">';
+                                              hl+='</div>';
+                                              hl+='<div class="operation">';
+                                                   hl+='<span class="taskListDate" name="starttimefrom_'+e.data.taskid+'" id="starttimefrom_'+e.data.taskid+'" data-id="'+e.data.taskid+'"><span data-date="null" class="deteLine">设置到期时间</span></span>';
+                                                   hl+='<i class="task_None" tip="子任务"></i>';
+                                                   hl+='<span class="task_signalDetele" data-id="" title="删除"></span>';
+                                              hl+='</div>';
+                                         hl+='</div>';
+                                     hl+='</li>';
                             self.closest('.addSubTask').parent('.singleSubTask').prepend(hl);
                             self.parents('.singleSubTask').prev().find('.TaskAdd').addClass('off');
                             self.parents('.addSubTask').remove();
@@ -199,11 +201,13 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                     success:function(data){
                         var titles;
                         if(self.hasClass('completeHook')){
-                            self.removeClass('completeHook');                                                                                            
+                            self.removeClass('completeHook');
+                            self.parent().next('.taskListName').find('.subTaskName').removeClass('over_ellipsis');                                                                                            
                             titles='标记完成';
                             self.attr('data-val',1);
                         }else{
                             self.addClass('completeHook');
+                            self.parent().next('.taskListName').find('.subTaskName').addClass('over_ellipsis');
                             titles='标记为未完成';
                             self.attr('data-val',0);
                         }
@@ -228,6 +232,7 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                }
         },'.markTask');
         //日期设置
+        //http://fans-home.chenhua.cc/admin/task/set_expiration?taskid=180&expiration=2016-08-26  //大任务日期
         task.on({
             click:function(){
                 var idr=$(this).attr('id'),selfts=$(this),idval=parseInt($(this).attr('data-id'));
@@ -241,7 +246,11 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
                             data:{taskid:idval,expiration:dp.cal.getDateStr()},
                             dataType:'json',
                             success:function(data){
-                                //alert('成功');
+                                if(data.code == 200){
+                                    t.showmess(data.message,'',1000);
+                                }else{
+                                    t.showmess(data.message,'',1000);
+                                }
                             },
                             error:function(){
                                 alert('数据有问题');
@@ -269,14 +278,14 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
       //  click:a.createTaskHandler
        //},'.icon-task-signal');
     },
-    a.createTaskBig=function(e){
+    a.createTaskBig=function(e){  //大任务添加框
         var html='';
-        html+='<div class="createNewTask">\
-                    <div class="createNewSingle ThemeBGColor5">\
-                         <span class="markTask"></span>\
-                         <input type="text" class="txtSingleName" maxlength="256" placeholder="输入名称后按回车创建">\
-                    </div>\
-               </div>';
+        html+='<div class="createNewTask">';
+                    html+='<div class="createNewSingle ThemeBGColor5">';
+                         html+='<span class="markTask"></span>';
+                         html+='<input type="text" class="txtSingleName" maxlength="256" placeholder="输入名称后按回车创建">';
+                    html+='</div>';
+               html+='</div>';
         if(!($('#taskList .txtSingleName').length > 0)){
             $('#taskList>div').prepend(html);
         } 
@@ -284,24 +293,24 @@ define("test/task", ["jquery", "poshytip","common"],function(require, exports, m
     },
     a.createTasksmall=function(e,parentid){
         var whtml='';
-        whtml='<li class="addSubTask">\
-                   <div class="tliLine" style="left:20px;"></div>\
-                        <div class="singleTreeTask">\
-                             <span class="subJoinLine"></span>\
-                             <span class="InlineBlockTop subNoneNode"></span>\
-                             <span class="nodeCircleSmall circle "></span>\
-                             <span class="defaultListColorTask whiteTask"></span>\
-                             <span class="treeMark"><span class="markTask" title="标记完成"></span></span>\
-                             <div class="taskListName">\
-                                  <input class="addsubTaskName" data-id="'+parentid+'" maxlength="256" placeholder="输入名称后按回车创建">\
-                             </div>\
-                             <div class="operation">\
-                                  <span class="taskListDate" name="starttimefrom_" id="starttimefrom_"><span data-date="null" class="deteLine">设置到期时间</span></span>\
-                                  <i class="task_None" tip="子任务"></i>\
-                                  <span class="task_signalDetele" title="删除"></span>\
-                             </div>\
-                        </div>\
-               </li>';
+        whtml='<li class="addSubTask">';
+                   whtml+='<div class="tliLine" style="left:20px;"></div>';
+                        whtml+='<div class="singleTreeTask">';
+                             whtml+='<span class="subJoinLine"></span>';
+                             whtml+='<span class="InlineBlockTop subNoneNode"></span>';
+                             whtml+='<span class="nodeCircleSmall circle "></span>';
+                             whtml+='<span class="defaultListColorTask whiteTask"></span>';
+                             whtml+='<span class="treeMark"><span class="markTask" title="标记完成"></span></span>';
+                             whtml+='<div class="taskListName">';
+                                  whtml+='<input class="addsubTaskName" data-id="'+parentid+'" maxlength="256" placeholder="输入名称后按回车创建">';
+                             whtml+='</div>';
+                             whtml+='<div class="operation">';
+                                  whtml+='<span class="taskListDate" name="starttimefrom_'+parentid+'" id="starttimefrom_'+parentid+'"><span data-date="null" class="deteLine">设置到期时间</span></span>';
+                                  whtml+='<i class="task_None" tip="子任务"></i>';
+                                  whtml+='<span class="task_signalDetele" title="删除"></span>';
+                             whtml+='</div>';
+                        whtml+='</div>';
+               whtml+='</li>';
         if(!($('#taskList .addsubTaskName').length > 0)){
             e.closest('li').children('.singleSubTask').prepend(whtml);
         }

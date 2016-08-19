@@ -1,0 +1,1 @@
+define("js/ci_news",["jquery","swiper"],function(i){"user strict";i("jquery"),i("swiper"),new Swiper("#goodcroll",{pagination:".swiper-pagination"})});

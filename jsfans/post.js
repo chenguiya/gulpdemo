@@ -1,16 +1,29 @@
-define("test/post",["jquery","ajaxupload"],function(a){
-    "user strict";var $=a("jquery");var d=a('ajaxupload');
-    //活动发布选项增加删除
+define("test/post",["jquery","ajaxupload"],function(require, exports, module){
+    "user strict";var $=require("jquery");var d=require('ajaxupload');
+    //活动编辑器
+    var ue = UE.getEditor('editor',{
+         toolbars: [
+           ['bold', 'italic', 'underline', 'forecolor', 'justifyleft','justifycenter','justifyright','justifyjustify','|','fontsize','simpleupload']
+         ],
+         elementPathEnabled :false,
+         wordCount:false
+    });
+       //活动发布选项增加删除
     if($('#click_addpoll').length){
         $('#click_addpoll').click(function(){
             var ir=$('#itemDIv .itemHc').length;
-            var a=$('#packhidden').html();
-            a=a.replace(/av10\"\>1\<\/p\>/i,'av10">'+(ir+1)+'</p>');
-            a=a.replace(/package\[y\]\[name\]/i, 'package['+ir+'][name]');
-            a=a.replace(/package\[y\]\[price\]/i, 'package['+ir+'][price]');
-            a=a.replace(/package\[y\]\[num\]/i, 'package['+ir+'][num]');
-            a=a.replace('/value=\"\"/i')
-            var html='<div class="itemHc cl" id="package_'+ir+'">'+a+'</div>';
+            //var a=$('#packhidden').html();
+            //a=a.replace(/av10\"\>1\<\/p\>/i,'av10">'+(ir+1)+'</p>');
+            //a=a.replace(/package\[y\]\[name\]/i, 'package['+ir+'][name]');
+            //a=a.replace(/package\[y\]\[price\]/i, 'package['+ir+'][price]');
+            //a=a.replace(/package\[y\]\[num\]/i, 'package['+ir+'][num]');
+            //a=a.replace('/value=\"\"/i')
+            var html='<div class="itemHc cl" id="package_'+ir+'">';
+                html+='<p class="av10">'+(ir+1)+'</p>';
+                html+='<p class="av40"><input type="text" class="input-text" name="package['+ir+'][name]" placeholder="请填写收费项目名称" value="" /></p>';
+                html+='<p class="av25"><input type="text" class="input-text" name="package['+ir+'][price]" placeholder="请填写金额，免费请填0" value="" /></p>';
+                html+='<p class="av25"><input type="text" class="input-text" name="package['+ir+'][num]" placeholder="不填则不限制" value="" /></p>';
+                html+='</div>';
             $('#click_addpoll').parent().siblings('#itemDIv').append(html);
             ir++;  
         });
@@ -48,27 +61,6 @@ define("test/post",["jquery","ajaxupload"],function(a){
         }
 
     });
-    //招募模板
-    $(document).on('change', '#fileTemplate', function() {
-        if(typeof FileReader != null && typeof FileReader != undefined && this.files) {
-            $.ajaxfileupload({
-                url:'/admin/upload/recruit_temp',
-                dataType:'json',
-                fileElementId:'fileTemplate',
-                success:function(data){
-                    //var data=eval(data.data[0]);
-                     $('#previewid').html('<div class="coverPop" id="coverDetle"><img src="/upload/attachment/forum/'+data.attachment+'"><a href="javascript:void(0)" class="coverDetele icon-cw" id="coverDetele" onclick="shell.hideK()"></a></div>');
-                     $('.btn_upload').hide();
-                },
-                error: function() {
-                    alert('数据有问题');
-                }
-            });
-        }
 
-    });
-        
-    
-   
 });
 
