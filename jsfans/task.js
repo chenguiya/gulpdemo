@@ -1,9 +1,9 @@
-define("test/task", ["jquery", "poshytip","common"],function(require, exports, module) {
+define("test/task", ["jquery", "poshytip","common","datePicker"],function(require, exports, module) {
     "user strict";
     var $ = require("jquery");var t=require("common");
     var a={};
     a.tooltip=require("poshytip"),
-    //a.Datepick=require("js/module/My97DatePicker/WdatePicker"),
+    a.Datepick=require("datePicker"),
     a.init=function(){
         var task=$('#taskList');
         task.on({

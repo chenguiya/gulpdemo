@@ -8,6 +8,7 @@ var shell={
 	checkForm:function(form){
 	    var msg=new Array();
 	    var err=false;
+	    var ress=/^\d+$/;
 	    if(form.elements['title'].value){
 	    	if(form.elements['title'].value==0){
 	    		msg.push('活动名称不能为空');
@@ -42,10 +43,28 @@ var shell={
 	    	msg.push('活动封面需上传')
 	    }
 	    if(form.elements['free-event'] && form.elements['free-event'].value == 1){
-	    	if(form.elements['package[0][name]'].value==0){
+	    	if(form.elements['package[0][name]'].value==''){
 	    	    err=true;
 	    	    msg.push('收费活动设置最少填写一项');
-	        }
+	        }else{
+	        	var leng=form.getElementsByClassName('itemHc').length;
+	        	for(var i=0; i < leng; i++){
+	        		if(!ress.test(form.elements['package['+i+'][price]'].value)){
+	        			var h=form.elements['package['+i+'][name]'].value;
+	        			if(h!==''){
+	        				err=true;
+	        				msg.push('亲，'+h+'套餐费用必须为整数哦！');
+	        			}	
+	        		}else if(form.elements['package['+i+'][price]'].value==0){
+	        			var h=form.elements['package['+i+'][name]'].value;
+	        			if(h!==''){
+	        				err=true;
+	        				msg.push('这是收费活动哦，【'+h+'】付费套餐不要填写0元嘛！');
+	        			}
+	        			
+	        		}
+	        	}
+	        }  
 	    }
 	    var le=form.getElementsByClassName('isCod').length;
 	    if(le){
@@ -117,12 +136,13 @@ var shell={
     checkrecruitForm:function(form){
     	var msg=new Array();
     	var err=false;
+    	var ress=/^\d+$/;
     	if(form.elements['title'] && form.elements['title'].value == 0){
     		err=true;
     		msg.push('招募标题不能为空！');
     	}else if(form.elements['title'].value.length > 8){
     		err=true;
-    		msg.push('招募标题不能多余8个字');
+    		msg.push('招募标题不能多于8个字');
     	}
     	var male=form.getElementsByClassName('malCod').length;
     	if(male){
@@ -136,6 +156,20 @@ var shell={
     			err=true;
     			msg.push('报名设置最好选一项');
     		}
+    	}
+    	if(form.elements['number-dues'] && form.elements['number-dues'].value ==''){
+    		err=true;
+    		msg.push('会费金额不能为空，请填写会费数字金额哦！')
+    	}else if(!ress.test(form.elements['number-dues'].value)){
+    		err=true;
+    		msg.push('亲，会费金额必须要填写整数哦！');
+    	}
+    	if(form.elements['female-dues'] && form.elements['female-dues'].value==''){
+    		err=true;
+    		msg.push('女生金额不能为空，请填写一下金额哦！');
+    	}else if(!ress.test(form.elements['female-dues'].value)){
+    		err=true;
+    		msg.push('女生金额必须要填写整数哦！');
     	}
     	if(form.elements['template'] && form.elements['template'].value ==0){
     		err=true;
@@ -166,6 +200,7 @@ seajs.config({
 		'ZeroClipboard':'js/module/copyPlug/ZeroClipboard.js',
 		'echart':'js/module/echart/echarts.min.js',
 		'emotion':'js/module/emotion/emotion.js',
+		'datePicker':'js/module/DatePicker/WdatePicker',
 		'highcharts':'js/module/highcharts.js'
 	},
 	charset: 'utf-8',

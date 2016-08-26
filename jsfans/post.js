@@ -21,7 +21,7 @@ define("test/post",["jquery","ajaxupload"],function(require, exports, module){
             var html='<div class="itemHc cl" id="package_'+ir+'">';
                 html+='<p class="av10">'+(ir+1)+'</p>';
                 html+='<p class="av40"><input type="text" class="input-text" name="package['+ir+'][name]" placeholder="请填写收费项目名称" value="" /></p>';
-                html+='<p class="av25"><input type="text" class="input-text" name="package['+ir+'][price]" placeholder="请填写金额，免费请填0" value="" /></p>';
+                html+='<p class="av25"><input type="text" class="input-text" name="package['+ir+'][price]" placeholder="请填写金额，须为整数" value="" /></p>';
                 html+='<p class="av25"><input type="text" class="input-text" name="package['+ir+'][num]" placeholder="不填则不限制" value="" /></p>';
                 html+='</div>';
             $('#click_addpoll').parent().siblings('#itemDIv').append(html);
@@ -43,6 +43,39 @@ define("test/post",["jquery","ajaxupload"],function(require, exports, module){
         $('#'+ID+'Center').show();
         return false;
     });
+    //设置活动时间
+    if($('#starttimefrom').length){
+        $('#starttimefrom').focus(function(){
+        var _self=$(this);
+       WdatePicker({
+        dateFmt:'yyyy-MM-dd HH:mm:ss',
+        onpicked:function(dp){
+            $('#starttimefrom').val(dp.cal.getNewDateStr());
+        }
+       })
+
+       });
+    }
+    if($('#startimeto').length){
+       $('#startimeto').focus(function(){
+        WdatePicker({
+        dateFmt:'yyyy-MM-dd HH:mm:ss',
+        onpicked:function(dp){
+            $('#startimeto').val(dp.cal.getNewDateStr());
+        }
+       })
+      }); 
+    }
+    if($('#expiration').length){
+        $('#expiration').focus(function(){
+        WdatePicker({
+        dateFmt:'yyyy-MM-dd HH:mm:ss',
+        onpicked:function(dp){
+            $('#expiration').val(dp.cal.getNewDateStr());
+        }
+       })
+      })
+    }
     $(document).on('change', '#fileCover', function() {
         if(typeof FileReader != null && typeof FileReader != undefined && this.files) {
             $.ajaxfileupload({

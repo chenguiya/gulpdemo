@@ -67,7 +67,7 @@ define("test/summary",["jquery","highcharts","dateRange"],function(require, expo
             name: '会员数',
             data: member_count
         }, {
-            name: '联系人',
+            name: '非会员',
             data: join_count
         }]
     });
@@ -102,7 +102,7 @@ define("test/summary",["jquery","highcharts","dateRange"],function(require, expo
             name: '会员数',
             data: mem_count
         }, {
-            name: '联系人',
+            name: '非会员',
             data: join_count
         }]
     });
