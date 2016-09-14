@@ -1,10 +1,23 @@
-define("test/post_recruit",["jquery","common"],function(require, exports, module){
+define("test/post_recruit",["jquery","common","kditor"],function(require, exports, module){
     "user strict";
-    var $=require("jquery");var layer=require('layer');var j=require('common');
+    var $=require("jquery");var layer=require('layer');var j=require('common');var kind=require('kditor');
     var m={};
     m.init=function(){
         var arry=[];var i=0;
        var rect=$('.createScope');
+       var editor;
+       //招募规则kindeditor编辑器
+       KindEditor.ready(function(K) {
+        editor = K.create('textarea[name="content"]', {
+          basePath:homeUrl+'static/js/module/',
+          themesPath:'../static/js/module/kditor/',
+          langType:'../kditor/lang/zh_CN',
+          resizeType : 1,
+          allowPreviewEmoticons : false,
+          allowImageUpload : false,
+          items : []
+        });
+      });
        //点击模板背景图
        rect.on({
         click:function(){
@@ -89,6 +102,10 @@ define("test/post_recruit",["jquery","common"],function(require, exports, module
             }
           }
        },'.trash_Icon');
+       /*$('#form-article-add').submit(function(){
+        alert('rr');
+        return false
+       })*/
     },
     m.Oneclick=function(self,img){
       var title=$('#title').val();

@@ -3,7 +3,7 @@ define("test/post",["jquery","ajaxupload"],function(require, exports, module){
     //活动编辑器
     var ue = UE.getEditor('editor',{
          toolbars: [
-           ['bold', 'italic', 'underline', 'forecolor', 'justifyleft','justifycenter','justifyright','justifyjustify','|','fontsize','simpleupload']
+           ['bold', 'italic', 'underline', 'forecolor', 'justifyleft','justifycenter','justifyright','justifyjustify','|','fontsize','simpleupload','insertvideo']
          ],
          elementPathEnabled :false,
          wordCount:false
@@ -77,10 +77,10 @@ define("test/post",["jquery","ajaxupload"],function(require, exports, module){
       })
     }
     $(document).on('change', '#fileCover', function() {
-        if(typeof FileReader != null && typeof FileReader != undefined && this.files) {
             $.ajaxfileupload({
-                url:'/upload/index',
-                dataType:'json',
+                type: 'post',
+                url:homeUrl+'upload/index',
+                dataType:'json',    
                 fileElementId:'fileCover',
                 success:function(data){
                     var data=eval(data.data[0]);
@@ -91,7 +91,7 @@ define("test/post",["jquery","ajaxupload"],function(require, exports, module){
                     alert('数据有问题');
                 }
             });
-        }
+       //}
 
     });
 
