@@ -202,6 +202,112 @@ define("test/list",["jquery","common","layer","js/module/layer/skin/layer.css"],
             title: title,
             content: url
         });
+    },
+    a.page=function(){
+        var pageList=$('.actListH');
+        //下一页点击
+        pageList.on({
+            click:function(){
+                var url=window.location.href;
+                var _self=$(this);
+                var page=parseInt($(this).prev('.page_num').find('.first').text());
+                var maxpage=parseInt($(this).prev('.page_num').find('.last').text());
+                if(page < maxpage){
+                    $.ajax({
+                    type:'GET',
+                    url:url,
+                    data:{page:page+1},
+                    dataType:'html',
+                    success:function(data){
+                        var data=$(data).find('.actListH .actListTable table');
+                        $('.actListH .actListTable').html(data);
+                        _self.parent('.page_nav_area').find('#page_prevbtn').show();
+                    },
+                    error:function(){
+                        mon.showmsg('数据有问题','',1000);
+                    }
+                 });
+                    $(this).prev('.page_num').find('.first').text(page+1);
+                    if(maxpage===page+1){
+                        _self.hide(); 
+                    }
+                }else{
+                    _self.hide();
+                }
+                return false;  
+            }
+        },'#page_nextbtn');
+        //上一页点击
+        pageList.on({
+            click:function(){
+                var url=window.location.href;
+                var _self=$(this);
+                var page=parseInt($(this).next('.page_num').find('.first').text());
+                var maxpage=parseInt($(this).next('.page_num').find('.last').text());
+                if(page > 1){
+                    $.ajax({
+                    type:'GET',
+                    url:url,
+                    data:{page:page-1},
+                    dataType:'html',
+                    success:function(data){
+                        var data=$(data).find('.actListH .actListTable table');
+                        $('.actListH .actListTable').html(data);
+                        _self.parent('.page_nav_area').find('#page_nextbtn').show();
+                    },
+                    error:function(){
+                        mon.showmsg('数据有问题','',1000);
+                    }
+                 });
+                    $(this).next('.page_num').find('.first').text(page-1);
+                    if(page-1===1){
+                        _self.hide(); 
+                    }
+                }
+                return false;
+            }
+        },'#page_prevbtn');
+        //跳转点击
+        pageList.on({
+            click:function(){
+                var _self=$(this);
+                var prev=_self.parent('.goto_area').prev().find('#page_prevbtn');
+                var next=_self.parent('.goto_area').prev().find('#page_nextbtn');
+                var input=_self.prev().val();
+                var res=/^\d+$/;
+                var url=window.location.href;
+                var maxpage=parseInt($(this).parent('.goto_area').prev().find('.page_num .last').text());
+                if(input == '' || input > maxpage || !res.test(input)){
+                    mon.showmsg('请输入正确页码');
+                }else{
+                    $.ajax({
+                        type:'GET',
+                        url:url,
+                        data:{page:parseInt(input)},
+                        dataType:'html',
+                        success:function(data){
+                            var data=$(data).find('.actListH .actListTable table');
+                            $('.actListH .actListTable').html(data);
+                            _self.parent('.goto_area').prev().find('.first').text();
+                        },
+                        error:function(){
+                            mon.showmsg('数据有问题','',1000)
+                        }
+                    });
+                    $(this).parent('.goto_area').prev('.page_nav_area').find('.first').text(parseInt(input));
+                    if(maxpage == parseInt(input)){
+                        prev.show();
+                        next.hide();
+                    }else if(parseInt(input) == 1){
+                        next.show();
+                        prev.hide();
+                    }else{
+                        prev.show();
+                        next.show();
+                    }
+                }
+            }
+        },'#page_gobtn')
     }
     module.exports = a;
 
