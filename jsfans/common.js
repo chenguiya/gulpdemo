@@ -10,7 +10,7 @@ function showmsg(msg, offsetObj, delay) {
       var winWidth = document.body.clientWidth || window.innerWidth;
 
       if (!$('#toptip').length) {
-        $(document.body).prepend('<div id="jsapend" style="position:relative;"><div id="toptip" style="position: absolute; font-size: 18px; color: #fff;  font-family: Microsoft YaHei;  text-align: center; border-radius: 5px; line-height: 50px; padding: 0 30px 0 30px; min-height: 50px;background: rgba(0,0,0,0.5);z-index: 999999;">' + msg + '</div></div>');
+        $(document.body).prepend('<div id="jsapend" style="position:relative;"><div id="toptip" style="position: absolute; font-size: 15px; color: #fefefe;  font-family: Microsoft YaHei;  text-align: center; border-radius: 5px; line-height: 50px; padding: 0 30px 0 30px; min-height: 50px;background: #3d4859;z-index: 999999;">' + msg + '</div></div>');
       } else {
         $('#toptip').fadeOut('fast').html(msg);
       }

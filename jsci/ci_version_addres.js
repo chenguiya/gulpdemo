@@ -109,6 +109,47 @@ define("js/ci_version_addres",["jquery"],function(a){
       }
       
     });
+    //address_list选择默认地址
+    $('.addressAdddef').click(function(){
+      addressId=parseInt($(this).data('id'));
+      var _self=$(this);
+        $.ajax({
+               type:'POST',
+               url:cid_url+'/mendez_home/set_address',
+               data:{address_id:addressId,is_select:1,token:token},
+               dataType:'json',
+               cache:false,
+               success:function(data){
+                     if(data.code==200){
+                          $('.addrest').find('.defa').remove();
+                          _self.parent().append('<em class="defa"></em>');
+                          if(isIOS){ 
+                             setTimeout(function(){
+                                window.location.href ="ios://NativeBack";
+                             },500);
+                          }else if(isAndroid){
+                             setTimeout(function(){
+                                 try{
+                                    window.Android.NativeBack();
+                                }catch(e){
+                                    console.log(e);
+                                    showmsg('此版本不支持，请安装最新版本','',2000);
+                                } 
+                              },500);
+                           }else{
+                            setTimeout(function(){
+                              window.location.href =cid_url+'/mendez_home/address?token='+token;
+                            },500);
+                          } 
+                     }else{
+                          showmsg(data.message,'',1000);
+                     }
+               },
+               error:function(){
+                     showmsg('数据返回异常','',1000);
+               }
+          });
+    });
     //ajax通用
     function ajaxdata(message,tip){
       if(isIOS){ 

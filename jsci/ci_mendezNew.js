@@ -192,7 +192,7 @@ define("js/ci_mendezNew",["jquery"],function(a){
                                                                   '<p class="rep_nor">'+brr[j].username+'<em>'+brr[j].dateline_desc+'</em></p>'+
                                                                   '<a href="javascript:void(0);" class="icon-zans paire_zg" data-commentid="'+brr[j].comment_id+'"><em>'+brr[j].zan+'</em></a>'+
                                                             '</div>'+
-                                                            '<p class="message">测试一下问题呀</p>'+
+                                                            '<p class="message">'+brr[j].comment+'</p>'+
                                                       '</div>';
                                             }
                                             html+='</div>';
