@@ -1,6 +1,8 @@
-define("test/post_recruit",["jquery","common","kditor"],function(require, exports, module){
+define("test/post_recruit",[,"common","layer","kditor","js/module/layer/skin/layer.css"],function(require,exports,module){
     "user strict";
-    var $=require("jquery");var layer=require('layer');var j=require('common');var kind=require('kditor');
+    var layer=require('layer');var j=require('common');
+    var kind=require('kditor');
+    require('js/module/layer/skin/layer.css');
     var m={};
     m.init=function(){
         var arry=[];var i=0;
@@ -18,6 +20,74 @@ define("test/post_recruit",["jquery","common","kditor"],function(require, export
           items : []
         });
       });
+       //自定义设置
+       $('#defined_btn').click(function(){
+            var html='<div style="text-align:center; padding-right:20px; padding-top:55px;">'+
+                     '<ul class="recruitDiv cl">'+
+                          '<li><a href="javascript:void(0)" data-click="单行字设置,/admin/defined_field/add?formtype=text,570,470">单行字</a></li>'+
+                          '<li><a href="javascript:void(0)" data-click="多行字设置,/admin/defined_field/add?formtype=textarea,570,470">多行字</a></li>'+
+                          '<li><a href="javascript:void(0)" data-click="单选设置,/admin/defined_field/add?formtype=radio,570,570">单选</a></li>'+
+                          '<li><a href="javascript:void(0)" data-click="多选设置,/admin/defined_field/add?formtype=select,570,570">多选</a></li>'+
+                     '</ul>'+
+                     '</div>';
+            j.layerShow({
+               html:html,
+               title:'添加需填写信息项',
+               width:'540',
+               height:'200',
+               type:true
+            })
+      }) ;
+       //编辑自定义弹窗
+       var editbtn=$('#editAdd_type');
+       editbtn.on({
+          click:function(){
+              var arr=$(this).attr('data-click').split(",");
+              m.layer_show(arr[0],arr[1],arr[2],arr[3]);
+          }
+       },'.edit_define');
+       //删除自定义弹窗
+       editbtn.on({
+          click:function(){
+             var self=$(this);
+             var field=parseInt(self.closest('.edit_input').data('field'));
+             $.ajax({
+                type:'POST',
+                url:homeUrl+'admin/defined_field/delete',
+                data:{fieldid:field},
+                cache:false,
+                dataTyep:'json',
+                success:function(data){
+                    j.showmsg(data.message,'',1000);
+                    self.closest('.edit_input').remove();
+                    //var arr=$('#fieldids').attr('name').match(/\d+/g).toString().split(',');
+                    var arr=$('#fieldids').val().split(',');
+                    if(arr.length<6){
+                       $('#defined_btn').css('display','block');
+                    }
+                    for(var i=0; i < arr.length; i++){
+                       if(arr[i]==field){
+                        arr.splice(i,1);
+                       }
+                    }
+                    //$('#fieldids').attr('name','fieldids['+arr+']');
+                    $('#fieldids').val(arr);
+                },
+                error:function(){
+                     j.showmsg('数据返回异常','',1000);
+                }
+             })
+          }
+       },'.close_defined')
+       //弹窗里面的
+       var sets=$('#append_parent');
+       sets.on({
+         click:function(){
+            $(this).parents('#overpop').remove();
+            var arr=$(this).attr('data-click').split(",");
+            m.layer_show(arr[0],arr[1],arr[2],arr[3]);
+         }
+       },'a');
        //点击模板背景图
        rect.on({
         click:function(){
@@ -154,6 +224,30 @@ define("test/post_recruit",["jquery","common","kditor"],function(require, export
                           '</div>'+
                      '</div>';
       self.find('.compText').html(html);
+    },
+    m.layer_show=function(title,url,w,h){
+        if (title == null || title == '') {
+            title=false;
+        };
+        if (url == null || url == '') {
+            url="404.html";
+        };
+        if (w == null || w == '') {
+            w=800;
+        };
+        if (h == null || h == '') {
+            h=($(window).height() - 50);
+        };
+        layer.open({
+            type: 2,
+            area: [w+'px', h +'px'],
+            fix: false, //不固定
+            maxmin: true,
+            scrollbar:false,
+            shade:0.4,
+            title: title,
+            content: url
+        });
     }
    module.exports = m;
 });

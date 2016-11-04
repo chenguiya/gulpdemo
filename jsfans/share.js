@@ -1,6 +1,6 @@
-define("test/share",["jquery","common","ZeroClipboard"],function(require, exports, module){
+define("test/share",["common","ZeroClipboard"],function(require, exports, module){
     "user strict";
-    var $=require("jquery");var s=require('common');
+    var s=require('common');
     var clip = null;  
     var m={};
     m.init=function(){
@@ -26,7 +26,20 @@ define("test/share",["jquery","common","ZeroClipboard"],function(require, export
     	clip.glue('btn_copy', 'clip_container');
     },
     m.shared=function(bdText,bdDesc,bdUrl,bdPic){
-      s.shared(bdText,bdDesc,bdUrl,bdPic);
+         window._bd_share_config = {
+        common : {
+            bdText : bdText,    
+            bdDesc : '',    
+            bdUrl : bdUrl,   
+            bdPic : bdPic
+        },
+        share : [{
+            "tag":"pictureShare",
+            "bdSize" : 32
+        }]
+    }
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='http://bdimg.share.baidu.com/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+      //s.shared(bdText,bdDesc,bdUrl,bdPic);
     }
    module.exports = m;
 });

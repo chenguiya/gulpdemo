@@ -1,6 +1,7 @@
-define("test/fansclub",["jquery","common","layer","js/module/layer/skin/layer.css"],function(require, exports, module){
+define("test/fansclub",["common","layer","js/module/layer/skin/layer.css"],function(require, exports, module){
     "user strict";
-    var $=require("jquery");var layer=require('layer');var j=require('common');
+    var layer=require('layer');
+    var j=require('common');
     require('js/module/layer/skin/layer.css');
     var m={};
     m.init=function(){
@@ -27,7 +28,13 @@ define("test/fansclub",["jquery","common","layer","js/module/layer/skin/layer.cs
         $('#fansclub_edit_qrcode').click(function(){
             var arr=$(this).attr('data-click').split(",");
             m.layer_show(arr[0],arr[1],arr[2],arr[3]);
-        })
+        });
+        //头像加载不成功触发
+        /*$('img.img_noerror').on('error',function(){
+           var img=event.srcElement; 
+           img.src=homeUrl+'/static/images/no_logo.png'; 
+           img.onerror=null; //控制不要一直跳动 
+        });*/
     },
     m.layer_show=function(title,url,w,h){
         if (title == null || title == '') {

@@ -1,0 +1,1 @@
+define("test/post_recruit",[,"common","layer","kditor","js/module/layer/skin/layer.css"],function(){"user strict";var e={};require("layer"),require("common"),require("kditor");require("js/module/layer/skin/layer.css"),e.init=function(){},module.exports=e});
