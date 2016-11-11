@@ -120,6 +120,10 @@ define("test/defined_field_set",["common","layer","js/module/layer/skin/layer.cs
          var html='<p><input type="text" class="input-text" name="package_'+len+'" placeholder="最多不能超过20个字符" value="" /><span class="pack_colse"></span><span class="Tipover"></span></p>';
          $('.opitionItem').append(html);
          len++;
+         if($('#maxlength').length){
+          $('#maxlength').val(len);
+         }
+         //alert(len);
          if(len >9){
            $(this).parent().css('display','none');
          }
@@ -130,30 +134,37 @@ define("test/defined_field_set",["common","layer","js/module/layer/skin/layer.cs
            var self=$(this);
            self.parent().remove();
            var len=$('.opitionItem').find('p').length;
+           if($('#maxlength').length){
+              $('#maxlength').val(len);
+           }
            if(len < 10){
              $('#click_addpoll').parent().css('display','block');
            }
         }
       },'.pack_colse');
       var option_type=false;
-      option.find('input').focus(function(){
+      option.on({
+         focus:function(){
           var obj=$(this);
-          obj.next().removeClass('Tipshow');
-      }).blur(function(){
+           obj.next('.Tipover').removeClass('Tipshow');
+         },
+         blur:function(){
         var obj=$(this);
          var title=obj.val();
-         var length=title.length;
+          var length=m.CheckLength(title);
+          //alert(length);
           if(length > 20 || title==''){
-            obj.next('.Tipover').html('最多不能超过20个字符');
-            obj.next('.Tipover').addClass('Tipshow');
+              obj.parent().find('.Tipover').html('最多不能超过20个字符');
+              obj.parent().find('.Tipover').addClass('Tipshow');
             option_type=false;
             return false;
          }else{
           option_type=true;
-          obj.next('.Tipover').html('');
-          obj.next('.Tipover').removeClass('Tipshow');
+              obj.parent().find('.Tipover').html('');
+              obj.parent().find('.Tipover').removeClass('Tipshow');
          }
-      });
+         }
+      },'p input');
 
       //单选ajax
       $('#btn_radiook').click(function(){
@@ -163,14 +174,18 @@ define("test/defined_field_set",["common","layer","js/module/layer/skin/layer.cs
           var fid=$('#fid').val();
           var formtype=$('#formtype').val();
           var title=$('#title').val();
+          var pLen=option.find('p').length;
+          //alert(pLen)
           option.find('p').each(function(i){
               arr[i]=$(this).find('input').val();
-              if(arr[i]==''){
+              var lencheck=m.CheckLength(arr[i]);
+              if(arr[i]=='' || lencheck >20){
                 option.find('p').eq(i).children('.Tipover').html('最多不能超过20个字符');
                 option.find('p').eq(i).children('.Tipover').addClass('Tipshow');
                 falg=false;
               }
           });
+          //alert(arr)
           $('.recruit_radioico').each(function(){
           var selfwap=$(this);
           if(selfwap.find('input').is(':checked')){
@@ -230,7 +245,8 @@ define("test/defined_field_set",["common","layer","js/module/layer/skin/layer.cs
               var max=parseInt($('#maxlength').attr('max'));
               option.find('p').each(function(i){
                   arr[i]=$(this).find('input').val();
-                  if(arr[i]==''){
+                  var lencheck=m.CheckLength(arr[i]);
+                  if(arr[i]=='' || lencheck > 20){
                       option.find('p').eq(i).children('.Tipover').html('最多不能超过20个字符');
                       option.find('p').eq(i).children('.Tipover').addClass('Tipshow');
                       flag=false;
@@ -341,7 +357,7 @@ define("test/defined_field_set",["common","layer","js/module/layer/skin/layer.cs
           if((strTemp.charCodeAt(i)>0) && (strTemp.charCodeAt(i)<=255)){
             sum=sum+1
           }else{
-            sum=sum+2
+            sum=sum+1
           }
         }
         return sum;

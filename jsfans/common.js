@@ -10,7 +10,7 @@ function showmsg(msg, offsetObj, delay) {
       var winWidth = document.body.clientWidth || window.innerWidth;
 
       if (!$('#toptip').length) {
-        $(document.body).prepend('<div id="jsapend" style="position:relative;"><div id="toptip" style="position: absolute; font-size: 15px; color: #fefefe;  font-family: Microsoft YaHei;  text-align: center; border-radius: 5px; line-height: 50px; padding: 0 30px 0 30px; min-height: 50px;background: #3d4859;z-index: 999999;">' + msg + '</div></div>');
+        $(document.body).prepend('<div id="jsapend" style="position:relative;"><div id="toptip" style="position: absolute; font-size: 15px; color: #fefefe;  font-family: Microsoft YaHei;  text-align: center; border-radius: 5px; line-height: 25px; padding: 10px 30px; min-height: 25px;background: #3d4859;z-index: 999999;">' + msg + '</div></div>');
       } else {
         $('#toptip').fadeOut('fast').html(msg);
       }
@@ -67,7 +67,7 @@ function showmess(msg, offsetObj, delay) {
         }
       },'#hideDete')
 };
-var layerShow=function(settings){
+function layerShow(settings){
   var defaults={
     html:'',
     title:'',
@@ -76,24 +76,24 @@ var layerShow=function(settings){
     submit:'',
     type:false
   };
-  var config=$.extend(defaults,settings);
+  settings=$.extend(defaults,settings);
     var parent=$('#append_parent');
-        if(typeof(config.width) =='undefined' || config.width=='' || !config.width){
-            config.width=400;
+        if(typeof(settings.width) =='undefined' || settings.width=='' || !settings.width){
+            settings.width=400;
         }
-        if(typeof(config.height) == 'undefined' || config.height=='' || !config.height){
-            config.height=400;
+        if(typeof(settings.height) == 'undefined' || settings.height=='' || !settings.height){
+            settings.height=400;
         }
         var de='<div id="overpop">';
-            if(config.type == true){
+            if(settings.type == true){
                de+='<style>html{overflow:hidden}</style>';
             }
             de+='<div id="maskover" style="display:block"></div>';
-            de+='<div class="layer_shadeCon" style="width:'+config.width+'px; height:'+config.height+'px; margin-left:-'+(config.width/2)+'px; margin-top:-'+(config.height/2)+'px">';
-            de+='<div class="maskhd">'+config.title+'<a href="javascript:;" class="icon-close"></a></div>';
-            de+='<div class="layerContent">'+config.html+'</div>';
-            if(config.submit){
-              de+='<div class="layer_submit"><a href="javascript:;" class="'+config.submit+'">确定</a></div>';
+            de+='<div class="layer_shadeCon" style="width:'+settings.width+'px; height:'+settings.height+'px; margin-left:-'+(settings.width/2)+'px; margin-top:-'+(settings.height/2)+'px">';
+            de+='<div class="maskhd">'+settings.title+'<a href="javascript:;" class="icon-close"></a></div>';
+            de+='<div class="layerContent">'+settings.html+'</div>';
+            if(settings.submit){
+              de+='<div class="layer_submit"><a href="javascript:;" class="'+settings.submit+'">确定</a></div>';
             }
             de+='</div></div>';
         parent.append(de);
@@ -103,7 +103,7 @@ var layerShow=function(settings){
             });
         }
 };
-var shared=function(bdtext,desc,url,pic){
+function shared(bdtext,desc,url,pic){
   window._bd_share_config = {
         common : {
             bdText : bdtext,    
