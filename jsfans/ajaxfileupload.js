@@ -69,6 +69,16 @@ jQuery.extend({
 		        }
 		        return data;
 		    }
+		    function handerror(s, xml, status, e) {
+		if(s.error) {
+			//亲，图片文件大小过大哦！请压缩在上传！
+		    alert('\u4eb2\uff0c\u56fe\u7247\u6587\u4ef6\u5927\u5c0f\u8fc7\u5927\u54e6\uff01\u8bf7\u538b\u7f29\u5728\u4e0a\u4f20\uff01');
+			//s.error.call(s.context || s, xml, status, e);
+		}
+		if(s.global) {
+			(s.context ? jQuery(s.context) : jQuery.event).trigger("ajaxError", [xml, s, e]);
+		}
+	}
 			var io = document.getElementById(iframeid);
 			try {
 				if(io.contentWindow) {
@@ -79,7 +89,7 @@ jQuery.extend({
 					xml.responseXML = io.contentDocument.document.XMLDocument?io.contentDocument.document.XMLDocument:io.contentDocument.document;
 				}
 			} catch(e) {
-				this.handleerror(s, xml, null, e);
+				handerror(s, xml, null, e);
 			}
 			if(xml||istimeout == 'timeout') {
 				requestdone = true;
@@ -95,11 +105,11 @@ jQuery.extend({
 							jQuery.event.trigger("ajaxSuccess", [xml, s]);
 						}
 					} else {
-                        this.handleerror(s, xml, status);
+                        handerror(s, xml, status);
 					}
 				} catch(e) {
 					status = 'error';
-					this.handleerror(s, xml, status, e);
+					handerror(s, xml, status, e);
 				}
 				if(s.global) {
 					jQuery.event.trigger("ajaxComplete", [xml, s]);
@@ -119,7 +129,13 @@ jQuery.extend({
 						jQuery(io).remove();
 						jQuery(form).remove();
 					} catch(e) {
-						this.handleerror(s, xml, null, e);
+						if(s.error) {
+							s.error.call(s.context || s, xml, status, e);
+						}
+						if(s.global) {
+							(s.context ? jQuery(s.context) : jQuery.event).trigger("ajaxError", [xhr, s, e]);
+						}
+						//this.handleerror(s, xml, null, e);
 					}
 				}, 100);
 
@@ -143,7 +159,7 @@ jQuery.extend({
 			}
 			jQuery(form).submit();
 		} catch(e) {
-			this.handleerror(s, xml, null, e);
+			handerror(s, xml, null, e);
 		}
 
 		jQuery('#' + iframeid).load(uploadcallback);

@@ -145,18 +145,33 @@ define("test/post",["jquery","ajaxupload","common","layer","js/module/layer/skin
       })
     }
     $(document).on('change', '#fileCover', function() {
+         /*var ImgObj=new Image(); 
+         var ImgFileSize=Math.round(ImgObj.fileSize/1024*100)/100;//取得图片文件的大小 
+         var fso=new ActiveXObject("Scripting.FileSystemObject"); 
+         var f=fso.GetFile(files); 
+         var mySize = f.size/1024; 
+         alert(mySize)*/
             $.ajaxfileupload({
                 type: 'post',
                 url:homeUrl+'upload/index',
+                timeout:1000,
                 dataType:'json',    
                 fileElementId:'fileCover',
                 success:function(data){
+                    if(data.code==200){
                     var data=eval(data.data[0]);
+                        if(data.file_size<=1024){
                      $('#previewid').html('<input type="hidden" id="aid" name="aid" value="' + data.aid + '" /><div class="coverPop" id="coverDetle"><img src="/upload/attachment/forum/'+data.attachment+'"><a href="javascript:void(0)" class="coverDetele icon-cw" id="coverDetele" onclick="shell.hideK()"></a></div>');
                      $('.btn_upload').hide();
+                        }else{
+                            alert('亲，图片大小不超过1M哦！');
+                        }
+                   }else{
+                      alert(data.message);
+                   }
                 },
-                error: function() {
-                    alert('数据有问题');
+                error: function(data, status, e) {
+                    alert(e);
                 }
             });
        //}
