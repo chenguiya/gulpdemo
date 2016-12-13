@@ -1,18 +1,18 @@
 define("js/ci_version_addres",["jquery"],function(a){
     "user strict";var $=a("jquery");
-    var proveiceValue='',citiValue='',districtValue='';
+    var proveiceValue='',citiValue='',districtValue='';   
     //返回市的值
     //http://cid.chenhua.cc/mendez_home/district_change?district_id=7
     $('#selProvinces_0').on('change',function(){
       proveiceValue=$('#selProvinces_0').val();
       $.ajax({
-         type:'POST',
+         type:'POST',       
          url:cid_url+'/mendez_home/district_change',
-         data:{district_id:proveiceValue},
+         data:{district_id:proveiceValue}, 
          dataType:'json',
-         cache:false,
+         cache:false,  
          success:function(data){
-          var count=data.data.district_list.length;
+          var count=data.data.district_list.length; 
           var arr=eval(data.data.district_list);
           var html='<option value="0">市</option>';
           for(var i=0; i < count; i++){
