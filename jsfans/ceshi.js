@@ -1,13 +1,22 @@
-define("test/post_recruit",[,"common","layer","kditor","js/module/layer/skin/layer.css"],function(){
-    "user strict";
-     var m={};
-	 var layer=require('layer');var j=require('common');
-    var kind=require('kditor');
-    require('js/module/layer/skin/layer.css');
-     m.init=function(){
-      }
-    
-   
-   module.exports = m;
-});
+;(function (window, $, undefined) {
+    $.fn.createTab = function (opt) {
+        var def = {
+            activeEvt: 'mouseover',
+            activeCls: 'active'
+        }
+        $.extend(def, opt);
+        var childNavList=$(this).children();
+        var childContentList=$(this).next().children();
+        $(childContentList[0]).show();
+        childNavList.each(function(index,ele){
+          $(ele).click(function(){
+            childContentList.hide();
+            $(childContentList[index]).show();
+            childNavList.removeClass(def.activeCls);
+            $(this).addClass(def.activeCls);
+            return false;
+          })
+        })
+    }
 
+})(window, jQuery);

@@ -1,6 +1,6 @@
-define("test/register_create",["jquery","ajaxupload","common"],function(require, exports, module){
+define("test/register_create",["jquery","ajaxupload","common","validate"],function(require, exports, module){
     "user strict";
-    var $=require("jquery");var j=require('common');var d=require('ajaxupload');
+    var $=require("jquery");var j=require('common');var d=require('ajaxupload');var dat=require('validate');
     var m={};
     var InterValObj; //timer变量，控制时间
     var count = 5; //间隔函数，1秒执行
@@ -11,12 +11,12 @@ define("test/register_create",["jquery","ajaxupload","common"],function(require,
             $('#err-msg').html('');
             var phone=$('#phone').val();
             //alert($('#phone').isEmpty)
-            if($.isEmpty(phone)){
+            if(dat.isEmpty(phone)){
                $('#err-msg').html('<i>!</i>请输入手机号码');
                return;
 
             }
-            if(!$.isMobile(phone)){
+            if(!dat.isMobile(phone)){
               $('#err-msg').html('<i>!</i>无效的手机号码');
               return ;
             }
@@ -47,7 +47,7 @@ define("test/register_create",["jquery","ajaxupload","common"],function(require,
             var token=$('#token').val();
             var verify_code=$('#verify_code').val();
             var invite_code=$('#invite_code').val();
-            if($.isEmpty(verify_code)){
+            if(dat.isEmpty(verify_code)){
                $("#err-yzm").html("<i>!</i>请输入验证码");
                return;
             }
@@ -107,22 +107,22 @@ define("test/register_create",["jquery","ajaxupload","common"],function(require,
            var realname = $("#realname").val();
            var password = $("#password").val();
            var com_password = $("#com_password").val();
-           if($.isEmpty(name)){
+           if(dat.isEmpty(name)){
               $('#err-yhm').html('<i>!</i>请输入用户名！');
               return false;
            }
-           if($.isEmpty(realname)){
+           if(dat.isEmpty(realname)){
               $('#err-xm').html('<i>!</i>请输入真实姓名！');
               return false;
            }
-           if($.isEmpty(password)){
+           if(dat.isEmpty(password)){
              $('#err-mm').html('<i>!</i>请输入密码！');
              return false;
            }else if(!/^.{8,16}$/.test(password)){
               $('#err-mm').html('<i>!</i>密码长度8~16位，数字、字母、字符至少包含两种');
              return false;
            }
-           if($.isEmpty(com_password)){
+           if(dat.isEmpty(com_password)){
              $('#err-msg').html('<i>!</i>请输入确认密码！');
              return false;
            }else if(com_password !== password){
@@ -261,11 +261,11 @@ define("test/register_create",["jquery","ajaxupload","common"],function(require,
             var city_id=$('#city_id').val();
             var league_id=$('#league_id').val();
             var team_id=$('#team_id').val();
-            if($.isEmpty(fansclub_logo)){
+            if(dat.isEmpty(fansclub_logo)){
               $('#err-file').html('<i>!</i>请上传球迷会logo');
               return false;
             }
-            if($.isEmpty(fansclub_name)){
+            if(dat.isEmpty(fansclub_name)){
                $('#err-fansclub-name').html('<i>!</i>请输入球迷会名称！');
                return false;
             }

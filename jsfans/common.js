@@ -1,5 +1,6 @@
 define(function(require, exports, module){
  var $=require("jquery");
+
 function showmsg(msg, offsetObj, delay) {
       delay = delay || 2000;
       msg = msg || '操作成功';
